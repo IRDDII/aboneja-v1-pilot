@@ -1,0 +1,14 @@
+Asetet e palëve të treta te demoja — të shërbyera lokalisht, pa asnjë kërkesë jashtë faqes.
+
+vendor/qrcode.min.js
+  qrcodejs 1.0.0 — Copyright (c) 2012 davidshimjs — licenca MIT
+  burimi: https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js
+  SHA-256: C541EF06327885A8415BCA8DF6071E14189B4855336DEF4F36DB54BDE8484F36
+
+fonts/inter-latin-1.woff2
+  Inter — Copyright (c) The Inter Project Authors — SIL Open Font License 1.1
+
+fonts/jetbrains-mono-latin-2.woff2
+  JetBrains Mono — Copyright (c) The JetBrains Mono Project Authors — SIL Open Font License 1.1
+
+Fontet vijnë nga Google Fonts (nënbashkësia latin, që mbulon ë dhe ç).
