@@ -50,7 +50,11 @@
     plussm:ic('<path d="M12 5v14M5 12h14"/>',19),
     ticketsm:ic('<path d="M3 8a2 2 0 0 0 0 4v0a2 2 0 0 1 0 4v1a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-1a2 2 0 0 1 0-4 2 2 0 0 1 0-4V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"/>',19),
     bigcheck:ic('<path d="M5 12.5l4.5 4.5L19 7.5"/>',44),
-    okcheck:ic('<path d="M5 12.5l4.5 4.5L19 7.5"/>',22)
+    okcheck:ic('<path d="M5 12.5l4.5 4.5L19 7.5"/>',22),
+    // Të dyja përdoreshin pa u përcaktuar: në vend të ikonës dilte teksti «undefined»
+    // (9 kuti informacioni, çdo njoftim i vogël, verdikti «U lexua sërish», terminali i autobusit).
+    info:ic('<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.01"/>',22),
+    bus:ic('<path d="M8 6v6M15 6v6M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/>',22)
   };
 
   // Çmimet: migrimi 031. Datat: expires_at = starts_at + 30 ditë me orë të saktë (entitlement.mjs).
@@ -155,6 +159,105 @@
     '2 abonime aktive':'2 active subscriptions','1 abonim aktiv':'1 active subscription','3 abonime aktive':'3 active subscriptions',
     'Kjo pjesë vjen pas prototipit.':'This part comes after the prototype.'
   };
+  // v12 (24 shtator): fjalori mbulon edhe turistin, operatorin dhe stafin. Më parë «EN» linte
+  // shqip 130 rreshta, dhe butoni i gjuhës dukej sikur s'bënte asgjë.
+  Object.assign(EN, {
+    'Abonim mujor me identitet shqiptar':'Monthly pass with an Albanian ID','Turist':'Tourist',
+    'Biletë javore për vizitorët':'Weekly ticket for visitors','Së shpejti':'Coming soon','Stafi i transportit':'Transport staff',
+    'Skanon abonimet në autobus':'Scans passes on the bus','Administrata e kompanisë':'Company administration',
+    'Lexohen nga dokumenti — kontrollo dhe vazhdo.':'Read from the document — check and continue.',
+    'Origjina':'Origin','Emaili':'Email','Kodi':'Code','Bli':'Buy','Biletat e mia':'My tickets','Skano':'Scan',
+    'QR-ja vjen nga serveri dhe kërkon internet.':'The QR comes from the server and needs internet.',
+    'QR-ja vjen nga serveri dhe rifreskohet çdo':'The QR comes from the server and refreshes every','2 minuta':'2 minutes',
+    'Qytetarët shfaqen si pika':'Citizens appear as dots','vetëm kur e kanë app-in hapur':'only while the app is open',', pa emra.':', with no names.',
+    'Lekë/muaj':'Lekë/month','Çdo abonim vlen':'Every subscription is valid for','30 ditë':'30 days','nga çasti i blerjes.':'from the moment of purchase.',
+    'Vlen deri më':'Valid until','LINJË':'LINE','KOMPANI':'COMPANY','30 DITË':'30 DAYS','Linjë':'Line','Kompani':'Company','Universal':'Universal',
+    'shiko të gjitha':'see all','Të gjitha linjat':'All lines',
+    'Numri i pasaportës':'Passport number','Nga vjen?':'Where are you from?','Shteti':'Country','Itali':'Italy',
+    'Këtu të vjen bileta, dhe këtu hyn sërish nëse humbet telefonin.':'Your ticket comes here, and this is how you get back in if you lose your phone.',
+    'Si te pasaporta jote.':'As in your passport.','TURIST I VERIFIKUAR':'VERIFIED TOURIST',
+    'Llogaria u ruajt. Tani zgjidh biletën javore.':'Account saved. Now choose your weekly ticket.',
+    'Mirëseerdhe,':'Welcome,','Vizitor':'Visitor','Aktive':'Active','7 ditë':'7 days','Ende pa biletë':'No ticket yet',
+    'Zgjidh njërën nga tri biletat javore.':'Choose one of the three weekly tickets.','Bli biletën':'Buy a ticket',
+    'Harta tregon linjat dhe stacionet e qytetit.':'The map shows the city’s lines and stops.',
+    'Biletë javore':'Weekly ticket','Shtatë ditë udhëtime pa kufi.':'Seven days of unlimited rides.','Një linjë':'One line','Lekë / 7 ditë':'Lekë / 7 days',
+    'Vlen në linjën që zgjedh.':'Valid on the line you choose.','Të gjitha linjat e kompanisë':'All lines of the company',
+    'Vlen në çdo linjë të asaj kompanie.':'Valid on every line of that company.','Të gjithë Shqipërinë':'All of Albania',
+    'Vlen në të gjitha linjat e rrjetit.':'Valid on every line in the network.','Zgjidh linjën':'Choose the line','Zgjidh kompaninë':'Choose the company',
+    'Turisti paguan me kartë dhe e merr QR-në në çast, te llogaria e tij me pasaportë.':'Visitors pay by card and get the QR instantly, in their passport account.',
+    'Mund të udhëtosh tani':'You can travel now','Bileta':'Ticket','Çmimi':'Price','Vlen':'Valid','Udhëtime':'Rides','Pa kufi':'Unlimited',
+    'Harta e linjave':'Line map','Pasaporta':'Passport','Biletat e mëparshme':'Previous tickets',
+    'Të dhënat e turistëve rrinë te':'Tourists’ data lives in','databaza e tyre':'their own database',', e ndarë nga ajo e qytetarëve.':', separate from the citizens’ one.',
+    'Hyrje operatori':'Operator sign-in','Faturino ose kontrollor':'Conductor or inspector',
+    'Ç’terminal është ky?':'What terminal is this?','Zgjidhet një herë për pajisjen.':'Chosen once for the device.',
+    'Pajisje e autobusit':'Bus device','Terminal dore':'Handheld terminal','Pajisje autobusi':'Bus device',
+    'E fiksuar te dera. Rri e çiftëzuar edhe kur ndërrohet turni. Udhëtari e skanon vetë.':'Fixed at the door. Stays paired when the shift changes. Passengers scan it themselves.',
+    'E mban faturino ose kontrollori. Çiftëzimi bie kur mbyllet turni.':'Carried by the conductor or inspector. Pairing ends when the shift closes.',
+    'Të dyja çiftëzohen me kod dhe sekret. Linjën e cakton administrata te terminali.':'Both pair with a code and a secret. The administration sets the line on the terminal.',
+    'Çiftëzo terminalin':'Pair the terminal','Çiftëzohet një herë dhe rri ashtu.':'Paired once, and it stays that way.',
+    'Kodi dhe sekreti rrinë vetëm në këtë pajisje, sa zgjat turni.':'The code and secret stay only on this device, for as long as the shift lasts.',
+    'Kodi i pajisjes':'Device code','Sekreti':'Secret','Çiftëzo dhe vazhdo':'Pair and continue',
+    'Linja vendoset nga administrata te terminali, jo nga skanimi. Terminal pa linjë nuk lejon kalim.':'The administration sets the line on the terminal, not the scan. A terminal without a line lets no one through.',
+    'Aboneja kërkon kamerën':'Aboneja needs the camera','Lejo kamerën':'Allow camera','Jo tani':'Not now',
+    'Kamera përdoret vetëm për të lexuar QR-në. Asnjë figurë nuk ruhet dhe nuk dërgohet.':'The camera is used only to read the QR. No image is stored or sent.',
+    'Kamera është e bllokuar. Përdor':'The camera is blocked. Use','Verifiko me kod':'Verify with code',', ose lejoje sërish.':', or allow it again.',
+    'Udhëtari e afron QR-në te lexuesi':'The passenger holds the QR to the reader','Drejtoje kamerën nga QR-ja e udhëtarit':'Point the camera at the passenger’s QR',
+    'Demo · zgjidh përgjigjen e serverit':'Demo · pick the server’s answer','Faturino':'Conductor','Autobus':'Bus',
+    'I VLEFSHËM':'VALID','LINJË TJETËR':'WRONG LINE','TERMINAL PA LINJË':'TERMINAL WITHOUT A LINE','JASHTË FUSHËVEPRIMIT':'OUT OF SCOPE',
+    'I SKADUAR':'EXPIRED','S’KA NISUR ENDE':'NOT STARTED YET','I REVOKUAR':'REVOKED','QR I NDARË':'SHARED QR','U LEXUA SËRISH':'READ AGAIN','QR I VJETËR':'OLD QR',
+    'Abonim i linjës L7 · udhëtari mund të hipë.':'L7 line pass · the passenger may board.',
+    'Abonimi vlen vetëm në L12. Ky terminal është L7.':'The pass is valid only on L12. This terminal is L7.',
+    'Terminalit nuk i është caktuar linja. Njofto administratën.':'No line is set for this terminal. Notify the administration.',
+    'Abonim i një kompanie tjetër.':'A pass of another company.','Abonimi ka mbaruar më 12 shtator, 08:30.':'The pass ended on 12 September, 08:30.',
+    'Abonimi fillon më 21 shtator, 00:00.':'The pass starts on 21 September, 00:00.','Abonimi është anuluar nga administrata.':'The pass was cancelled by the administration.',
+    'I njëjti QR u skanua nga një pajisje tjetër. Kërko dokumentin.':'The same QR was scanned by another device. Ask for the ID.',
+    'I njëjti udhëtar brenda 2 minutave — nuk numërohet dy herë.':'Same passenger within 2 minutes — not counted twice.',
+    'QR-ja skadoi. Kërko udhëtarit ta rifreskojë.':'The QR expired. Ask the passenger to refresh it.',
+    'Kur kamera nuk lexon dot — kodi shkruhet me dorë.':'When the camera can’t read it — the code is typed by hand.','Kodi i abonimit':'Pass code',
+    'Verifikimi manual regjistrohet njësoj si skanimi.':'A manual check is recorded exactly like a scan.',
+    'Hyrje stafi':'Staff sign-in','Paratë':'Money','Kërkesat':'Requests','Terminalet':'Terminals','Skanime sot':'Scans today','Në autobus tani':'On board now',
+    'Ndarja e të ardhurave':'Revenue split','Komisioni i platformës':'Platform commission','Bruto shtator':'Gross, September','Neto për ty':'Net for you',
+    'Nga poli universal':'From the universal pool','Gati për tërheqje':'Ready to withdraw','Komisioni sot është':'Today the commission is a',
+    ': shifra del, paraja nuk lëviz derisa të hapet porta.':': the figure shows, the money does not move until the gate opens.','Kërko tërheqje':'Request withdrawal',
+    'Pret':'Pending','Miratuar':'Approved','Refuzuar':'Rejected','Mirato':'Approve','Refuzo':'Reject','Poli universal':'Universal pool',
+    'Tërheqje te llogaria e biznesit':'Withdrawal to the business account','Rimbursim — abonim i dyfishtë':'Refund — duplicate pass',
+    'Shpërndarje mujore':'Monthly distribution','Tërheqje mbi bilancin':'Withdrawal above the balance',
+    'Çdo miratim shkruhet te regjistri i parave dhe nuk fshihet.':'Every approval is written to the money ledger and never deleted.',
+    'PA LINJË — çdo abonim linje refuzohet':'NO LINE — every line pass is refused',
+    'Terminal pa linjë refuzon çdo abonim linje. Linjën e cakton ti këtu.':'A terminal without a line refuses every line pass. You set the line here.',
+    'Shto terminal':'Add terminal','Pajisja u shkëput nga terminali.':'The device was unpaired from the terminal.','Turni u mbyll. Çiftëzimi ra.':'Shift closed. Pairing ended.',
+    'Kërkesa për tërheqje u dërgua — pret miratimin.':'Withdrawal request sent — awaiting approval.','U miratua. Shkruhet te regjistri i parave.':'Approved. Written to the money ledger.',
+    'U refuzua.':'Rejected.',
+    'Verifikim me kod':'Verify with code','Skano tjetrin':'Scan the next one','Abonime aktive':'Active passes',
+    'Terminale online':'Terminals online','Skanimet e fundit':'Latest scans','skanimet e fundit':'latest scans','Kompania':'Company'
+  });
+  // Rreshtat me numra ose data nuk kapen dot me fjalor: përkthehen me modele.
+  var MUAJ_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var RE_MUAJ = new RegExp('(\\d{1,2}) ('+MUAJ.join('|')+')(?![a-zë])', 'g');
+  var MODELET = [
+    [/^Hapi (\d) nga (\d) · (.+)$/, function(m){ return 'Step '+m[1]+' of '+m[2]+' · '+tr(m[3]); }],
+    [/^Mirë se erdhe, (.+)$/, function(m){ return 'Welcome, '+m[1]; }],
+    [/^Skadon (.+)$/, function(m){ return 'Expires '+tr(m[1]); }],
+    [/^Sot, (.+)$/, function(m){ return 'Today, '+m[1]; }],
+    [/^Konfirmo · (.+)$/, function(m){ return 'Confirm · '+m[1]; }],
+    [/^deri (.+)$/, function(m){ return 'until '+tr(m[1]); }],
+    [/^(\d+) ditë$/, function(m){ return m[1]+' days'; }],
+    [/^Linja (\S+)$/, function(m){ return 'Line '+m[1]; }],
+    [/^Ke (\d+) abonime$/, function(m){ return 'You have '+m[1]+' subscriptions'; }],
+    [/^Skanimi i fundit: (\d+) min më parë$/, function(m){ return 'Last scan: '+m[1]+' min ago'; }],
+    [/^Faturino: (.+)$/, function(m){ return 'Conductor: '+m[1]; }],
+    [/^turni (.+)$/, function(m){ return 'shift '+m[1]; }],
+    [/^Dërguar te (.+)$/, function(m){ return 'Sent to '+m[1]; }],
+    [/^(\d+) stacione$/, function(m){ return m[1]+' stops'; }],
+    [/^Paneli i (.+)$/, function(m){ return m[1]+' panel'; }],
+    [new RegExp('^('+MUAJ.join('|')+') (\\d{4})$'), function(m){ return MUAJ_EN[MUAJ.indexOf(m[1])]+' '+m[2]; }]
+  ];
+  function tr(v){
+    if(EN[v]) return EN[v];
+    for(var i=0;i<MODELET.length;i++){ var m = MODELET[i][0].exec(v); if(m) return MODELET[i][1](m); }
+    if(v.indexOf(' · ') > 0){ var pjeset = v.split(' · ').map(tr).join(' · '); if(pjeset !== v) return pjeset; }
+    return v.replace(RE_MUAJ, function(_, d, mu){ return d+' '+MUAJ_EN[MUAJ.indexOf(mu)]; });
+  }
   function perkthe(){
     if(state.lang!=='en') return;
     var rrenja = [$screen, $tabbar, $overlay];
@@ -163,9 +266,11 @@
       var w = document.createTreeWalker(r, NodeFilter.SHOW_TEXT, null), n;
       while((n = w.nextNode())){
         var v = n.nodeValue.trim();
-        if(v && EN[v]) n.nodeValue = n.nodeValue.replace(v, EN[v]);
+        if(!v) continue;
+        var e = tr(v);
+        if(e !== v) n.nodeValue = n.nodeValue.replace(v, function(){ return e; });
       }
-      r.querySelectorAll('input').forEach(function(i){ if(EN[i.value]) i.value = EN[i.value]; });
+      r.querySelectorAll('input').forEach(function(i){ var e = tr(i.value); if(e !== i.value) i.value = e; });
     });
   }
   var NOW = new Date(2026, 8, 19, 22, 14);
@@ -177,7 +282,7 @@
 
   var state = {
     screen:'intro', mode:'light', selected:'line', choice:0, roleNote:false, done:false, notif:true, online:true,
-    tab:'login', regStep:0, doc:'id', gender:'f', lang:'sq', toast:null, drawer:false, qrOpen:false, qrSub:'s1', mapLine:'L7', typed:false,
+    tab:'login', regStep:0, doc:'id', gender:'f', lang:'sq', ctx:'', toast:null, drawer:false, qrOpen:false, qrSub:'s1', mapLine:'L7', typed:false,
     paired:false, verdict:0, tmode:'hand', cam:false, camDenied:false, stTab:'live', tprod:'t-line', tStep:0, tGender:'m', tKa:false,
     subs:[{id:'s1', product:'line', scope:'L7 · Kamëz – Qendër', from:new Date(2026, 8, 12, 8, 30)}],
     primary:'s1', nr:1,
@@ -207,6 +312,25 @@
   function code(s){ return s.split(' · ')[0]; }
   function place(s){ return s.split(' · ')[1] || s; }
   function info(icon, html){ return '<div class="info"><span class="ii">'+icon+'</span><span>'+html+'</span></div>'; }
+  // Qytetari i demos ndjek gjininë e zgjedhur: Arta / Ardit Kola (inicialet AK për të dy).
+  function emri(){ return state.gender==='f' ? 'Arta' : 'Ardit'; }
+  function emriPlote(){ return emri()+' Kola'; }
+  function emaili(){ return (state.gender==='f' ? 'arta' : 'ardit')+'.kola@shembull.al'; }
+  // Gjuha: dy zgjedhje të dukshme. Butoni i vjetër «Shqip» nuk tregonte dot cila ishte aktive.
+  function langSw(){
+    return '<div class="langsw" role="group" aria-label="Gjuha"><span class="lg" aria-hidden="true">'+I.globe+'</span>'+
+      '<button type="button" data-setlang="sq" aria-pressed="'+(state.lang==='sq')+'">SQ</button>'+
+      '<button type="button" data-setlang="en" aria-pressed="'+(state.lang==='en')+'">EN</button></div>';
+  }
+  // Tema: qytetari merr ngjyrën e gjinisë, turisti jeshilen; harta ruan atë të rrugës nga erdhi.
+  var CTX_QYTETAR = {login:1, reg:1, home:1, buy:1, detail:1, pass:1, account:1};
+  var CTX_TURIST = {treg:1, thome:1, tbuy:1, tpass:1, taccount:1};
+  function temaTani(){
+    if(CTX_TURIST[state.screen]) state.ctx = 't';
+    else if(CTX_QYTETAR[state.screen]) state.ctx = 'c';
+    else if(state.screen !== 'map') state.ctx = '';
+    return state.ctx === 't' ? 't' : (state.ctx === 'c' ? state.gender : '');
+  }
   // Shiriti i terminalit: kush është pajisja, cila linjë, dhe dalja.
   function opbar(){
     var bus = state.tmode==='bus';
@@ -318,7 +442,7 @@
       return '<div class="screen welcome">'+
         '<div class="ctrls">'+
           '<button class="lang" data-theme-toggle aria-label="Ndërro temën">'+(state.mode==='dark'?I.sun:I.moon)+' '+(state.mode==='dark'?'Light':'Dark')+'</button>'+
-          '<button class="lang">'+I.globe+' Shqip</button>'+
+          langSw()+
         '</div>'+
         '<div class="mid"><div class="logo" role="img" aria-label="Aboneja Ime">'+BUS+'</div>'+
           '<h1 class="display">Aboneja Ime</h1>'+
@@ -329,7 +453,7 @@
     },
     role:function(){
       return '<div class="screen">'+
-        '<button class="sq" data-go="welcome" aria-label="Kthehu">'+I.back+'</button>'+
+        '<div class="toprow"><button class="sq" data-go="welcome" aria-label="Kthehu">'+I.back+'</button>'+langSw()+'</div>'+
         '<h1 class="h" style="font-size:32px;margin-top:24px">Kush je?</h1>'+
         '<div class="who">'+
           '<button class="role main role--blue" data-go="login"><span class="ico">'+I.user+'</span><span><b>Qytetar</b><span class="d">Abonim mujor me identitet shqiptar</span></span></button>'+
@@ -346,7 +470,7 @@
         '<div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:6px"><div class="logo" style="width:64px;height:64px;border-radius:18px"><span style="width:32px;height:32px;display:block">'+BUS+'</span></div><h1 class="h">'+(hyr?'Hyrje':'Krijo llogari')+'</h1></div>'+
         '<div class="tabs" role="tablist"><button role="tab" data-tab="login" aria-selected="'+hyr+'">Hyr</button><button role="tab" data-tab="new" aria-selected="'+(!hyr)+'">Krijo llogari</button></div>'+
         (hyr
-          ? '<div class="card form">'+field('em','Email',I.mail,'arta.kola@shembull.al','email')+field('pw','Fjalëkalimi',I.lock,'demo-demo-demo','password')+
+          ? '<div class="card form">'+field('em','Email',I.mail,emaili(),'email')+field('pw','Fjalëkalimi',I.lock,'demo-demo-demo','password')+
               '<button class="btn btn-navy" data-go="home" style="margin-top:4px">Hyr</button></div>'
           : '<div class="card form"><p style="margin:0;color:var(--ink-2);font-size:15px">Pesë hapa të shkurtër: dokumenti, numri personal, llogaria, kodi në email dhe vulosja.</p>'+
               '<button class="btn btn-electric" data-reg="0">Fillo regjistrimin</button></div>')+
@@ -368,13 +492,13 @@
               '<button role="radio" data-gender="m" aria-checked="'+(state.gender==='m')+'">'+I.male+' Mashkull</button>'+
             '</div></div>'+
         '</div>';
-      if(n===2) body = '<h1 class="h">Llogaria</h1><div class="card form">'+field('rem','Email',I.mail,'arta.kola@shembull.al','email')+field('rpw','Fjalëkalimi',I.lock,'demo-demo-demo-2026','password')+field('rpw2','Konfirmo fjalëkalimin',I.lock,'demo-demo-demo-2026','password')+
+      if(n===2) body = '<h1 class="h">Llogaria</h1><div class="card form">'+field('rem','Email',I.mail,emaili(),'email')+field('rpw','Fjalëkalimi',I.lock,'demo-demo-demo-2026','password')+field('rpw2','Konfirmo fjalëkalimin',I.lock,'demo-demo-demo-2026','password')+
           '<p class="cap" style="display:flex;align-items:center;gap:8px;margin-top:-4px;color:var(--mint)">'+I.check+' Fjalëkalimet përputhen</p></div>';
       if(n===3) body = '<h1 class="h">Kodi në email</h1><p class="sub-h" style="margin-top:8px">Dërguar te a•••@shembull.al</p><div class="card form"><div class="otp">'+'482915'.split('').map(function(d){return '<span class="on">'+d+'</span>';}).join('')+'</div></div>';
       if(n===4) body = '<div class="seal" data-g="'+state.gender+'">'+
           '<span class="rings" aria-hidden="true"><i></i><i></i><i></i></span>'+
           '<span class="disc"><span class="tick">'+I.bigcheck+'</span></span>'+
-          '<h1 class="h">Mirë se erdhe, '+(state.gender==='f'?'Arta':'Ardit')+'</h1>'+
+          '<h1 class="h">Mirë se erdhe, '+emri()+'</h1>'+
           '<span class="mark">LLOGARIA U VULOS</span>'+
           '<p class="sub">Identiteti u lidh me numrin personal. Tani mund të blesh abonimin.</p>'+
         '</div>';
@@ -384,13 +508,13 @@
         '<div style="margin-top:14px">'+body+'</div>'+
         '<div class="spacer" style="min-height:18px"></div>'+
         (n<4 ? '<button class="btn btn-navy" data-reg="'+(n+1)+'">'+(n===3?'Verifiko':'Vazhdo')+'</button>'
-             : '<button class="btn btn-neon-'+state.gender+'" data-go="home">Hyr te Kreu</button>')+
+             : '<button class="btn btn-acc" data-go="home">Hyr te Kreu</button>')+
       '</div>';
     },
     home:function(){
       var a = cur(), p = prod(a.product), left = ditetMbetur(a.to), pct = Math.round(left/30*100);
       return '<div class="screen">'+
-        '<div class="head"><button class="sq" data-drawer="1" aria-label="Menuja">'+I.menu+'</button><div class="avatar" style="width:52px;height:52px;border-radius:16px">'+ic('<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',24)+'</div><div><h1 style="font-size:20px">Mirëseerdhët,<br>Arta!</h1></div><button class="sq" data-soon="1" aria-label="Njoftimet">'+I.bell+'</button></div>'+
+        '<div class="head"><button class="sq" data-drawer="1" aria-label="Menuja">'+I.menu+'</button><div class="avatar" style="width:52px;height:52px;border-radius:16px">'+ic('<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',24)+'</div><div><h1 style="font-size:20px">Mirëseerdhët,<br>'+emri()+'!</h1></div><button class="sq" data-soon="1" aria-label="Njoftimet">'+I.bell+'</button></div>'+
         '<section class="card subcard" aria-label="Abonimi aktual">'+
           '<div class="row"><span class="badge badge-mint">Aktiv</span><span class="cap">'+p.name+'</span></div>'+
           '<div class="line" style="margin-top:2px">'+(a.product==='line'?'<span class="linechip">'+code(a.scope)+'</span><span style="font-weight:700;color:var(--ink);font-size:17px">'+place(a.scope)+'</span>':'<span style="font-weight:700;color:var(--ink);font-size:17px">'+scopeLabel(a)+'</span>')+'</div>'+
@@ -398,7 +522,7 @@
           '<div class="bar" aria-hidden="true"><i style="width:'+pct+'%"></i></div>'+
         '</section>'+
         '<div class="actions">'+
-          '<button class="btn btn-qr-'+state.gender+'" data-qr="'+a.id+'">'+I.qr+' Hap QR-në</button>'+
+          '<button class="btn btn-acc" data-qr="'+a.id+'">'+I.qr+' Hap QR-në</button>'+
           '<button class="btn btn-mint" data-go="buy">'+I.cart+' Rinovo abonimin</button>'+
         '</div>'+
         (state.subs.length>1 ? '<button class="mini" data-go="pass">'+I.ticketsm+' Ke '+state.subs.length+' abonime · shiko të gjitha</button>' : '')+
@@ -445,7 +569,7 @@
           '</div>'+
           '<div class="spacer" style="min-height:20px"></div>'+
           '<div style="display:flex;flex-direction:column;gap:12px">'+
-            '<button class="btn btn-qr-'+state.gender+'" data-qr="'+neu.id+'">'+I.qr+' Hap QR-në</button>'+
+            '<button class="btn btn-acc" data-qr="'+neu.id+'">'+I.qr+' Hap QR-në</button>'+
             '<button class="btn btn-soft" data-go="pass">Abonimet e mia</button></div>'+
         '</div>';
       }
@@ -476,7 +600,7 @@
             '<div class="pn">'+p.name+'</div><div class="ln">'+scopeLabel(a)+'</div>'+
             '<div class="dates num"><div><span>Filloi</span><b>'+data(a.from)+', '+ora(a.from)+'</b></div><div><span>Skadon</span><b>'+data(a.to)+', '+ora(a.to)+'</b></div></div>'+
             '<div class="rowbtns">'+
-              '<button class="btn btn-qr-'+state.gender+'" data-qr="'+a.id+'">'+I.qr+' Hap QR-në</button>'+
+              '<button class="btn btn-acc" data-qr="'+a.id+'">'+I.qr+' Hap QR-në</button>'+
               (yne ? '' : '<button class="btn btn-ghostwhite" data-primary="'+a.id+'">Vendose te Kreu</button>')+
             '</div>'+
           '</article>';
@@ -507,7 +631,7 @@
           field('tem','Email',I.mail,'marco.rossi@example.it','email')+field('tpw','Fjalëkalimi',I.lock,'demo-demo-demo','password')+'</div>';
       if(n===3) body = '<h1 class="h">Kodi në email</h1><p class="sub-h" style="margin-top:8px">Dërguar te m•••@example.it</p><div class="card form"><div class="otp">'+
           '713904'.split('').map(function(d){ return '<span class="on">'+d+'</span>'; }).join('')+'</div></div>';
-      if(n===4) body = '<div class="seal" data-g="'+state.tGender+'">'+
+      if(n===4) body = '<div class="seal" data-g="t">'+
           '<span class="rings" aria-hidden="true"><i></i><i></i><i></i></span>'+
           '<span class="disc"><span class="tick">'+I.bigcheck+'</span></span>'+
           '<h1 class="h">Mirë se erdhe, '+(state.tGender==='f'?'Giulia':'Marco')+'</h1>'+
@@ -519,7 +643,7 @@
         '<div style="margin-top:14px">'+body+'</div>'+
         '<div class="spacer" style="min-height:18px"></div>'+
         (n<4 ? '<button class="btn btn-navy" data-treg="'+(n+1)+'">'+(n===3?'Verifiko':'Vazhdo')+'</button>'
-             : '<button class="btn btn-neon-'+state.tGender+'" data-go="thome">Hyr te Kreu</button>')+
+             : '<button class="btn btn-acc" data-go="thome">Hyr te Kreu</button>')+
       '</div>';
     },
     thome:function(){
@@ -527,16 +651,16 @@
       var emri = state.tGender==='f' ? 'Giulia' : 'Marco';
       return '<div class="screen">'+
         '<div class="head"><button class="sq" data-drawer="1" aria-label="Menuja">'+I.menu+'</button>'+
-          '<button class="avatar" data-go="taccount" aria-label="Profili" style="all:unset;cursor:pointer;width:52px;height:52px;border-radius:16px;background:linear-gradient(100deg,#45E0A8,#23CBB4);color:#06302A;display:grid;place-items:center">'+I.globe2+'</button>'+
+          '<button class="avatar avbtn" data-go="taccount" aria-label="Profili" style="width:52px;height:52px;border-radius:16px;display:grid;place-items:center">'+I.globe2+'</button>'+
           '<div><h1 style="font-size:20px">Mirëseerdhe,<br>'+emri+'!</h1></div>'+
           '<button class="sq" data-soon="1" aria-label="Njoftimet">'+I.bell+'</button></div>'+
         (state.tKa
           ? '<section class="card subcard tcard">'+
-              '<div class="row"><span class="badge" style="background:rgba(255,255,255,.18);color:#fff">Aktive</span><span style="font-weight:700;opacity:.85">7 ditë</span></div>'+
+              '<div class="row"><span class="badge tbadge">Aktive</span><span style="font-weight:700;opacity:.85">7 ditë</span></div>'+
               '<p class="prod">'+p.name+'</p>'+
-              '<div class="line" style="color:rgba(255,255,255,.85)">Skadon '+data(TFUND)+', '+ora(TFUND)+'</div>'+
+              '<div class="line tline">Skadon '+data(TFUND)+', '+ora(TFUND)+'</div>'+
               countdown('t')+
-              '<button class="btn" data-qr="turist" style="margin-top:10px;background:#fff;color:#12564E">'+I.qr+' Hap QR-në</button>'+
+              '<button class="btn tqr" data-qr="turist">'+I.qr+' Hap QR-në</button>'+
             '</section>'
           : '<section class="card subcard" style="align-items:center;text-align:center;gap:10px">'+
               '<span class="tflag" style="align-self:center">'+I.globe2+' Vizitor</span>'+
@@ -550,13 +674,13 @@
     taccount:function(){
       return '<div class="screen">'+
         backbar('thome','Profili')+
-        '<div class="card me"><div class="avatar" style="background:linear-gradient(100deg,#45E0A8,#23CBB4);color:#06302A">'+(state.tGender==='f'?'GR':'MR')+'</div>'+
+        '<div class="card me"><div class="avatar">'+(state.tGender==='f'?'GR':'MR')+'</div>'+
           '<div><b>'+(state.tGender==='f'?'Giulia Rossi':'Marco Rossi')+'</b><span class="cap">marco.rossi@example.it</span>'+
           '<div style="margin-top:6px"><span class="tflag">'+I.flag+' Itali</span></div></div></div>'+
         '<div class="card settings">'+
           '<button class="setting"><span class="si">'+I.hash+'</span>Pasaporta<span class="end">YA••••567</span></button>'+
           '<button class="setting"><span class="si">'+I.cake+'</span>Datëlindja<span class="end">03.07.1994</span></button>'+
-          '<button class="setting" data-lang="1"><span class="si">'+I.lang+'</span>Gjuha<span class="end">Shqip</span></button>'+
+          '<div class="setting" style="cursor:default"><span class="si">'+I.lang+'</span>Gjuha<span style="margin-left:auto">'+langSw()+'</span></div>'+
           '<div class="setting" style="cursor:default"><span class="si">'+I.moon+'</span>Tema<div class="seg" role="group" aria-label="Tema">'+
             '<button data-setmode="light" aria-pressed="'+(state.mode==='light')+'">Light</button><button data-setmode="dark" aria-pressed="'+(state.mode==='dark')+'">Dark</button></div></div>'+
           '<button class="setting" data-soon="1"><span class="si">'+I.history+'</span>Biletat e mëparshme</button>'+
@@ -577,7 +701,7 @@
             '<span class="pd">'+p.scope+'</span>'+
           '</button>'; }).join('')+
         '</div>'+
-        '<div style="margin-top:16px">'+info(I.info,'Turisti paguan me kartë dhe merr QR-në në çast. Nuk i kërkohet identitet.')+'</div>'+
+        '<div style="margin-top:16px">'+info(I.info,'Turisti paguan me kartë dhe e merr QR-në në çast, te llogaria e tij me pasaportë.')+'</div>'+
       '</div>';
     },
     tpass:function(){
@@ -595,7 +719,7 @@
               '<div><span class="label">Vlen</span><b class="num">'+data(nis)+' – '+data(TFUND)+'</b></div>'+
               '<div><span class="label">Udhëtime</span><b>Pa kufi</b></div>'+
             '</div>'+
-            '<button class="btn btn-neon-'+state.tGender+'" data-qr="turist">'+I.qr+' Hap QR-në</button>'+
+            '<button class="btn btn-acc" data-qr="turist">'+I.qr+' Hap QR-në</button>'+
           '</div>'+
         '</article>'+
         '<div class="actions" style="margin-top:16px"><button class="btn btn-soft" data-go="map">'+I.pin+' Harta e linjave</button></div>'+
@@ -767,9 +891,9 @@
     account:function(){
       return '<div class="screen">'+
         '<h1 class="h">Llogaria</h1>'+
-        '<div class="card me"><div class="avatar">AK</div><div><b>Arta Kola</b><span class="cap">arta.kola@shembull.al</span><div style="margin-top:6px"><span class="badge badge-mint">E verifikuar</span></div></div></div>'+
+        '<div class="card me"><div class="avatar">AK</div><div><b>'+emriPlote()+'</b><span class="cap">'+emaili()+'</span><div style="margin-top:6px"><span class="badge badge-mint">E verifikuar</span></div></div></div>'+
         '<div class="card settings">'+
-          '<button class="setting" data-lang="1"><span class="si">'+I.lang+'</span>Gjuha<span class="end">Shqip</span></button>'+
+          '<div class="setting" style="cursor:default"><span class="si">'+I.lang+'</span>Gjuha<span style="margin-left:auto">'+langSw()+'</span></div>'+
           '<div class="setting" style="cursor:default"><span class="si">'+I.moon+'</span>Tema<div class="seg" role="group" aria-label="Tema">'+
             '<button data-setmode="light" aria-pressed="'+(state.mode==='light')+'">Light</button><button data-setmode="dark" aria-pressed="'+(state.mode==='dark')+'">Dark</button></div></div>'+
           '<button class="setting" data-notif="1"><span class="si">'+I.bellsm+'</span>Njoftimet<span class="switch" data-on="'+state.notif+'"></span></button>'+
@@ -785,13 +909,13 @@
     var a = cur(), p = prod(a.product), tani = state.screen;
     function mi(go,label,icon,cls){ return '<button class="mi'+(cls?' '+cls:'')+'" data-go="'+go+'"'+(go===tani?' aria-current="page"':'')+'><span class="si">'+icon+'</span>'+label+'</button>'; }
     return '<div class="drawer-bg" data-closedrawer="1"></div><nav class="drawer" aria-label="Menuja">'+
-      '<div class="me2"><span class="photo">AK</span><div><b>Arta Kola</b><span class="cap">Qytetar</span></div></div>'+
+      '<div class="me2"><span class="photo">AK</span><div><b>'+emriPlote()+'</b><span class="cap">Qytetar</span></div></div>'+
       '<div class="act"><span>'+p.short+' · '+(a.product==='line'?code(a.scope):scopeLabel(a))+'</span><b class="num">'+ditetMbetur(a.to)+' ditë</b></div>'+
       '<h4>Navigimi</h4>'+
       mi('home','Kreu',I.homesm)+mi('map','Harta',I.pinsm)+mi('buy','Bli Abonim',I.plussm)+mi('pass','Abonimet e mia',I.ticketsm)+
       mi('account','Profili',I.usersm)+
       '<button class="mi sub" data-soon="1"><span class="si">'+I.history+'</span>Historiku i udhëtimeve</button>'+
-      '<button class="mi sub" data-lang="1"><span class="si">'+I.lang+'</span>Gjuha · Shqip</button>'+
+      '<div class="mi sub" style="cursor:default"><span class="si">'+I.lang+'</span>Gjuha<span style="margin-left:auto">'+langSw()+'</span></div>'+
       '<div class="spacer" style="min-height:14px"></div>'+
       mi('welcome','Dil',I.logout,'out')+
     '</nav>';
@@ -803,15 +927,17 @@
     var a = turist ? {product:'t', scope:tp.name, to:TFUND} : sub(state.qrSub);
     var p = turist ? {name:'Biletë javore', short:'Javore'} : prod(a.product);
     var qr = state.online
-      ? '<div class="qrframe"><svg class="ring" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="115" fill="none" stroke="var(--line-soft)" stroke-width="5"/><circle id="ring" cx="120" cy="120" r="115" fill="none" stroke="#6EB984" stroke-width="5" stroke-linecap="round" stroke-dasharray="722.6" stroke-dashoffset="0"/></svg><div class="qrwrap"><div class="qr" id="qr" role="img" aria-label="Kodi QR i abonimit"></div></div></div>'+
+      ? '<div class="qrframe"><svg class="ring" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="115" fill="none" stroke="var(--line-soft)" stroke-width="5"/><circle id="ring" class="ringfill" cx="120" cy="120" r="115" fill="none" stroke="#6EB984" stroke-width="5" stroke-linecap="round" stroke-dasharray="722.6" stroke-dashoffset="0"/></svg><div class="qrwrap"><div class="qr" id="qr" role="img" aria-label="Kodi QR i abonimit"></div></div></div>'+
         '<p class="timer">'+I.clock+'<span>Rifreskohet pas <b id="secs">2:00</b></span></p>'+
         '<p class="cap" style="text-align:center;margin:-6px 0 0">QR-ja vjen nga serveri dhe kërkon internet.</p>'
       : '<div class="offline" style="align-self:center">'+I.wifioff+'<b>Pa internet</b><span>Lidhuni dhe QR-ja shfaqet vetë.</span></div>';
-    return '<div class="qrmodal-bg" data-closeqr="1"><div class="qrmodal" data-g="'+state.gender+'" role="dialog" aria-label="QR e abonimit">'+
+    // Ngjyra vjen nga tema e telefonit: turisti jeshile, qytetari sipas gjinisë (më parë turisti
+    // merrte gjininë e qytetarit — Marco dilte me kokë rozë).
+    return '<div class="qrmodal-bg" data-closeqr="1"><div class="qrmodal" data-g="'+(turist?'t':state.gender)+'" role="dialog" aria-label="QR e abonimit">'+
       '<div class="qh"><small>'+(turist?'Biletë javore':'Abonim mujor')+'</small><b>'+(turist?tp.name:p.name)+'</b><span>'+(turist?'7 ditë':scopeLabel(a))+'</span><button class="x" data-closeqr="1" aria-label="Mbyll">'+I.x+'</button></div>'+
       '<div class="face"><span class="photo">'+(turist?(state.tGender==='f'?'GR':'MR'):'AK')+'</span><small>Fotoja për kontrollorin</small></div>'+
       '<div class="qb">'+qr+
-        '<div class="rows"><div><span>Udhëtari</span><b>'+(turist?(state.tGender==='f'?'Giulia Rossi':'Marco Rossi'):'Arta Kola')+'</b></div><div><span>Skadon</span><b class="num">'+data(a.to)+', '+ora(a.to)+'</b></div><div><span>Statusi</span><b style="color:var(--mint)">I vlefshëm</b></div></div>'+
+        '<div class="rows"><div><span>Udhëtari</span><b>'+(turist?(state.tGender==='f'?'Giulia Rossi':'Marco Rossi'):emriPlote())+'</b></div><div><span>Skadon</span><b class="num">'+data(a.to)+', '+ora(a.to)+'</b></div><div><span>Statusi</span><b style="color:var(--mint)">I vlefshëm</b></div></div>'+
       '</div></div></div>';
   }
 
@@ -888,6 +1014,8 @@
   }
   function render(){
     $phone.dataset.mode = state.mode;
+    var tema = temaTani();
+    if(tema) $phone.dataset.tema = tema; else $phone.removeAttribute('data-tema');
     if(state.screen==='intro') $phone.setAttribute('data-intro',''); else $phone.removeAttribute('data-intro');
     var tmp = document.createElement('div'); tmp.innerHTML = views[state.screen]();
     var fresh = tmp.firstChild; fresh.id = 'screen'; $screen.replaceWith(fresh); $screen = fresh;
@@ -901,6 +1029,8 @@
     document.getElementById('m-light').setAttribute('aria-pressed', state.mode==='light');
     document.getElementById('m-dark').setAttribute('aria-pressed', state.mode==='dark');
     document.getElementById('net').setAttribute('aria-checked', String(state.online));
+    document.getElementById('g-f').setAttribute('aria-pressed', state.gender==='f');
+    document.getElementById('g-m').setAttribute('aria-pressed', state.gender==='m');
     perkthe();
     renderOverlay();
     runCountdown();
@@ -928,7 +1058,8 @@
     var t = e.target.closest('button'); if(!t) return;
     if(t.id==='hold') return;
     if(t.dataset.themeToggle!==undefined){ setMode(state.mode==='dark'?'light':'dark'); return; }
-    if(t.classList.contains('lang') || t.dataset.lang){ state.lang = state.lang==='sq' ? 'en' : 'sq'; render(); return; }
+    // Gjuha zgjidhet, nuk ndërrohet verbërisht: SQ → shqip, EN → anglisht, gjithmonë.
+    if(t.dataset.setlang){ if(state.lang!==t.dataset.setlang){ state.lang = t.dataset.setlang; render(); } return; }
     if(t.dataset.soon){ thuaj(state.lang==='en' ? 'This part comes after the prototype.' : 'Kjo pjesë vjen pas prototipit.'); return; }
     if(t.id==='net'){ state.online = !state.online; if(state.online) state.pass.token = null; render(); return; }
     if(t.id==='replay'){ state.typed = false; go('intro'); return; }

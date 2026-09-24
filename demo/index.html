@@ -607,6 +607,56 @@ body{background:var(--stage);color:var(--stage-ink);font-family:"Inter",system-u
 .mapbox svg{display:block;width:100%;height:auto}
 .mapfoot{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;font-size:14px;color:var(--ink-2)}
 .mapfoot b{color:var(--ink)}
+
+/* v12 — 24 shtator: ngjyra e udhëtarit dhe ndërruesi i gjuhës.
+   .phone[data-tema]: f = rozë neon · m = blu e thellë neon · t = jeshile neon e lehtë (turisti).
+   Tema prek vetëm shenjat e identitetit: avatari, linja, shiriti, rrethi i QR-së, fotot, butoni i QR-së.
+   Jeshilja e statusit («Aktiv», «I vlefshëm») dhe e blerjes mbetet jeshile — aty ngjyra do të thotë diçka. */
+.phone{--acc:#3F5189;--acc-grad:var(--navy-grad);--acc-ink:#fff;--acc-glow:var(--navy-shadow);--acc-soft:var(--chip);--acc-soft-ink:var(--chip-ink)}
+.phone[data-tema="f"]{--acc:#F2359D;--acc-grad:linear-gradient(135deg,#FF74CC 0%,#E62A93 100%);--acc-ink:#fff;--acc-soft:#FFE1F2;--acc-soft-ink:#B0106A;
+  --acc-glow:0 0 0 2px rgba(255,116,204,.55),0 0 22px rgba(242,53,157,.42),0 10px 24px rgba(230,42,147,.26)}
+.phone[data-tema="m"]{--acc:#2F63FF;--acc-grad:linear-gradient(135deg,#4F86FF 0%,#1C3FD4 100%);--acc-ink:#fff;--acc-soft:#E3EBFF;--acc-soft-ink:#1C3FD4;
+  --acc-glow:0 0 0 2px rgba(96,146,255,.55),0 0 22px rgba(47,99,255,.42),0 10px 24px rgba(28,63,212,.28)}
+.phone[data-tema="t"]{--acc:#14C98A;--acc-grad:linear-gradient(135deg,#8AF7CB 0%,#26D89D 100%);--acc-ink:#053B2A;--acc-soft:#DDFBEF;--acc-soft-ink:#0B7A55;
+  --acc-glow:0 0 0 2px rgba(138,247,203,.65),0 0 22px rgba(38,216,157,.4),0 10px 24px rgba(20,201,138,.22)}
+.phone[data-mode="dark"][data-tema="f"]{--acc:#FF5CBC;--acc-soft:#3E1A30;--acc-soft-ink:#FFB3DE}
+.phone[data-mode="dark"][data-tema="m"]{--acc:#5B8CFF;--acc-soft:#16234A;--acc-soft-ink:#A9C2FF}
+.phone[data-mode="dark"][data-tema="t"]{--acc:#3FE6A8;--acc-soft:#10342A;--acc-soft-ink:#8FF3CB}
+.phone[data-tema] .head .avatar,.phone[data-tema] .me .avatar,.phone[data-tema] .drawer .me2 .photo{background:var(--acc-grad);color:var(--acc-ink);box-shadow:var(--acc-glow)}
+.phone[data-tema] .qrmodal .face .photo{background:var(--acc-grad);color:var(--acc-ink);box-shadow:0 0 0 5px var(--surface),0 0 26px color-mix(in srgb,var(--acc) 55%,transparent)}
+.phone[data-tema] .linechip{background:var(--acc-grad);color:var(--acc-ink);box-shadow:0 0 14px color-mix(in srgb,var(--acc) 45%,transparent)}
+.phone[data-tema] .bar i{background:var(--acc-grad);box-shadow:0 0 10px color-mix(in srgb,var(--acc) 55%,transparent)}
+.phone[data-tema] .count div.sec b{color:var(--acc)}
+.phone[data-tema] .qrframe .ringfill{stroke:var(--acc);filter:drop-shadow(0 0 5px color-mix(in srgb,var(--acc) 65%,transparent))}
+.phone[data-tema] .qrmodal .qh{background:var(--acc-grad);color:var(--acc-ink)}
+.phone[data-tema] .qrmodal .qh small,.phone[data-tema] .qrmodal .qh span{color:inherit;opacity:.85}
+.phone[data-tema] .qrmodal .x{background:rgba(255,255,255,.3);color:var(--acc-ink)}
+.btn-acc{background:var(--acc-grad);color:var(--acc-ink);box-shadow:var(--acc-glow)}
+.seal[data-g="f"]{--sc:#F2359D;--sc2:#FFA6DA}
+.seal[data-g="m"]{--sc:#2F63FF;--sc2:#9DB8FF}
+.seal[data-g="t"]{--sc:#14C98A;--sc2:#A6F8D6}
+/* Turisti: karta e biletës në jeshile neon të lehtë, me shkrim të errët — lexohet në diell. */
+.phone[data-tema="t"] .tcard{background:var(--acc-grad);color:var(--acc-ink);box-shadow:var(--acc-glow)}
+.phone[data-mode="dark"][data-tema="t"] .tcard{background:linear-gradient(135deg,#0F5A44 0%,#0C7A5A 100%);color:#EAFFF6;box-shadow:0 0 0 1px rgba(63,230,168,.4),0 0 28px rgba(63,230,168,.22)}
+.tcard .tbadge{background:rgba(255,255,255,.55);color:inherit}
+.phone[data-mode="dark"] .tcard .tbadge{background:rgba(255,255,255,.14)}
+.tcard .tline{color:inherit;opacity:.85}
+.tcard .count div{background:rgba(255,255,255,.5)}
+.phone[data-mode="dark"] .tcard .count div{background:rgba(255,255,255,.1)}
+.tcard .count b,.phone[data-tema] .tcard .count div.sec b{color:inherit}
+.tcard .count span{color:inherit;opacity:.75}
+.tcard .tqr{margin-top:10px;background:#fff;color:#0B7A55;box-shadow:0 8px 20px rgba(5,59,42,.14)}
+.avbtn{all:unset;box-sizing:border-box;cursor:pointer}
+.avbtn:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+
+/* Gjuha: dy zgjedhje të dukshme — gjithmonë shihet cila është aktive. */
+.toprow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.langsw{display:inline-flex;align-items:center;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:3px 3px 3px 8px;box-shadow:var(--btn-shadow);color:var(--ink-3)}
+.langsw .lg{display:grid;place-items:center;margin-right:3px}
+.langsw button{all:unset;cursor:pointer;min-width:32px;text-align:center;padding:6px 8px;border-radius:9px;font-size:12.5px;font-weight:800;letter-spacing:.05em;color:var(--ink-3)}
+.langsw button[aria-pressed="true"]{background:var(--navy-grad);color:#fff}
+.phone[data-tema] .langsw button[aria-pressed="true"]{background:var(--acc-grad);color:var(--acc-ink)}
+.langsw button:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
 </style>
 
 <div class="stage">
@@ -621,6 +671,10 @@ body{background:var(--stage);color:var(--stage-ink);font-family:"Inter",system-u
       <button type="button" id="m-dark" data-mode="dark">Dark</button>
     </div>
     <div class="net"><span>Interneti i telefonit</span><button type="button" id="net" role="switch" aria-checked="true" aria-label="Interneti"></button></div>
+    <div class="modes" role="group" aria-label="Qytetari i demos">
+      <button type="button" id="g-f" data-gender="f">Arta · Femër</button>
+      <button type="button" id="g-m" data-gender="m">Ardit · Mashkull</button>
+    </div>
     <nav class="jump" id="jump" aria-label="Ekranet"></nav>
     <button type="button" class="replay" id="replay">Shiko sërish animacionin e hyrjes</button>
     <div class="excluded"><b>Jashtë V1:</b> Quick Ticket · Turist · Tren · GPS live · pagesë reale · çdo veçori V2. Harta live: autobusët dhe qytetarët janë demo, jo GPS i vërtetë.</div>
