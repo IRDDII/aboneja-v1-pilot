@@ -80,9 +80,9 @@
     {id:'t-all',     name:'Të gjithë Shqipërinë',         price:1200, scope:'Vlen në të gjitha linjat e rrjetit.', pick:null,               opts:[]}
   ];
   var LINES = {
-    L7:{name:'Kamëz – Qendër', color:'#3F5189', pts:[[48,36],[92,70],[128,96],[150,138],[196,170],[240,214],[282,258]], stops:[['Kamëz',0],['Bathore',2],['Kthesa e Kamzës',3],['Sheshi Shqiponja',5],['Qendër',6]]},
-    L12:{name:'Laprakë – Qendër', color:'#2C7A8C', pts:[[30,178],[80,176],[126,190],[176,206],[222,216],[282,258]], stops:[['Laprakë',0],['Unaza e Re',1],['Ali Demi',3],['Qendër',5]]},
-    L3:{name:'Sauk – Qendër', color:'#6E4BB8', pts:[[312,70],[300,120],[292,168],[286,214],[282,258]], stops:[['Sauk',0],['Liqeni',1],['Rr. e Elbasanit',3],['Qendër',4]]}
+    L7:{name:'Kamëz – Qendër', color:'#2F6BFF', pts:[[48,36],[92,70],[128,96],[150,138],[196,170],[240,214],[282,258]], stops:[['Kamëz',0],['Bathore',2],['Kthesa e Kamzës',3],['Sheshi Shqiponja',5],['Qendër',6]]},
+    L12:{name:'Laprakë – Qendër', color:'#0E9F74', pts:[[30,178],[80,176],[126,190],[176,206],[222,216],[282,258]], stops:[['Laprakë',0],['Unaza e Re',1],['Ali Demi',3],['Qendër',5]]},
+    L3:{name:'Sauk – Qendër', color:'#7B5CFA', pts:[[312,70],[300,120],[292,168],[286,214],[282,258]], stops:[['Sauk',0],['Liqeni',1],['Rr. e Elbasanit',3],['Qendër',4]]}
   };
   var REG = ['Dokumenti','Identiteti','Llogaria','Kodi OTP','Vulosja'];
 
@@ -308,7 +308,10 @@
 
   var $screen = document.getElementById('screen'), $tabbar = document.getElementById('tabbar'), $phone = document.getElementById('phone'), $jump = document.getElementById('jump'), $overlay = document.getElementById('overlay');
   function prod(id){ for(var i=0;i<PRODUCTS.length;i++) if(PRODUCTS[i].id===id) return PRODUCTS[i]; }
-  function lek(n){ return n.toLocaleString('sq-AL') + ' Lekë'; }
+  // Numrat si te faqja: shqip me pikë («1.600»), anglisht me presje. toLocaleString('sq-AL') jepte «1,600»
+  // në shfletuesit pa të dhëna për shqipen.
+  function nr(n){ return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, state.lang==='en' ? ',' : '.'); }
+  function lek(n){ return nr(n) + ' Lekë'; }
   function code(s){ return s.split(' · ')[0]; }
   function place(s){ return s.split(' · ')[1] || s; }
   function info(icon, html){ return '<div class="info"><span class="ii">'+icon+'</span><span>'+html+'</span></div>'; }
@@ -387,7 +390,7 @@
       var el = document.getElementById('feed'); if(!el){ clearInterval(feedTick); return; }
       el.insertAdjacentHTML('afterbegin', rreshtFeed());
       while(el.children.length > 5) el.removeChild(el.lastChild);
-      var n = document.getElementById('lv-scan'); if(n) n.textContent = (++lvScan).toLocaleString('sq-AL');
+      var n = document.getElementById('lv-scan'); if(n) n.textContent = nr(++lvScan);
       var m = document.getElementById('lv-now'); if(m) m.textContent = String(5 + Math.floor(Math.random()*6));
     }, 2600);
   }
@@ -397,12 +400,12 @@
 
   function mapSvg(sel){
     var s = '<svg viewBox="0 0 340 300" role="img" aria-label="Harta e linjave">';
-    s += '<rect width="340" height="300" fill="'+(state.mode==='dark'?'#141B2E':'#EEF2F8')+'"/>';
-    var block = state.mode==='dark' ? '#1B2338' : '#FFFFFF', road = state.mode==='dark' ? '#2A3350' : '#DCE2EC';
+    s += '<rect width="340" height="300" fill="'+(state.mode==='dark'?'#101640':'#F1F0FA')+'"/>';
+    var block = state.mode==='dark' ? '#171E52' : '#FFFFFF', road = state.mode==='dark' ? '#252C63' : '#E2DFF2';
     [[16,16,60,44],[92,14,90,40],[200,20,70,56],[20,80,70,70],[180,92,60,50],[252,100,70,60],[40,214,110,70],[170,236,60,50],[230,160,40,40]].forEach(function(b){ s += '<rect x="'+b[0]+'" y="'+b[1]+'" width="'+b[2]+'" height="'+b[3]+'" rx="10" fill="'+block+'"/>'; });
-    s += '<path d="M0 150 C 70 130, 110 160, 170 150 S 280 120, 340 140" fill="none" stroke="'+(state.mode==='dark'?'#1E3A52':'#CFE3F5')+'" stroke-width="12" stroke-linecap="round"/>';
+    s += '<path d="M0 150 C 70 130, 110 160, 170 150 S 280 120, 340 140" fill="none" stroke="'+(state.mode==='dark'?'#1A2A66':'#D6E4FF')+'" stroke-width="12" stroke-linecap="round"/>';
     s += '<path d="M10 120 H330 M110 0 V300 M230 0 V300 M0 250 H340" stroke="'+road+'" stroke-width="6" fill="none"/>';
-    s += '<circle cx="250" cy="70" r="26" fill="'+(state.mode==='dark'?'#1C3328':'#DDF1E4')+'"/>';
+    s += '<circle cx="250" cy="70" r="26" fill="'+(state.mode==='dark'?'#123A31':'#DDF5EA')+'"/>';
     Object.keys(LINES).forEach(function(k){
       var L = LINES[k], on = k===sel, d = 'M'+L.pts.map(function(p){return p.join(' ');}).join(' L');
       if(on) s += '<path d="'+d+'" fill="none" stroke="'+(state.mode==='dark'?'#0F1424':'#fff')+'" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"/>';
@@ -420,20 +423,20 @@
     });
     // Qytetarët: pika anonime, që ndizen e fiken — sepse shfaqen VETËM kur app-i është hapur.
     [[74,64],[122,118],[158,92],[196,146],[214,196],[254,232],[96,196],[142,236],[268,178],[62,140],[186,58],[232,120]].forEach(function(c,i){
-      s += '<circle class="dotcitizen" cx="'+c[0]+'" cy="'+c[1]+'" r="4.5" fill="#E8833A" style="animation-delay:'+(i*0.53).toFixed(2)+'s"/>';
+      s += '<circle class="dotcitizen" cx="'+c[0]+'" cy="'+c[1]+'" r="4.5" fill="#F5A524" style="animation-delay:'+(i*0.53).toFixed(2)+'s"/>';
     });
     var L = LINES[sel];
     L.stops.forEach(function(st, i){
       var p = L.pts[st[1]], end = i===0 || i===L.stops.length-1, right = p[0] < 200;
       s += '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+(end?8:6)+'" fill="'+(end?L.color:'#fff')+'" stroke="'+L.color+'" stroke-width="3.5"/>';
-      s += '<text x="'+(p[0]+(right?12:-12))+'" y="'+(p[1]+4)+'" text-anchor="'+(right?'start':'end')+'" font-family="Inter,Arial,sans-serif" font-size="11.5" font-weight="'+(end?800:600)+'" fill="'+(state.mode==='dark'?'#E6EAF5':'#1F2937')+'" paint-order="stroke" stroke="'+(state.mode==='dark'?'#141B2E':'#EEF2F8')+'" stroke-width="3">'+st[0]+'</text>';
+      s += '<text x="'+(p[0]+(right?12:-12))+'" y="'+(p[1]+4)+'" text-anchor="'+(right?'start':'end')+'" font-family="Segoe UI Variable Text,SF Pro Text,Roboto,Inter,Arial,sans-serif" font-size="11.5" font-weight="'+(end?800:600)+'" fill="'+(state.mode==='dark'?'#E6EAF5':'#1F2937')+'" paint-order="stroke" stroke="'+(state.mode==='dark'?'#101640':'#F1F0FA')+'" stroke-width="3">'+st[0]+'</text>';
     });
     return s + '</svg>';
   }
 
   var views = {
     intro:function(){
-      return '<div class="screen" style="padding:0"><div class="intro" id="intro" data-skip="1" role="img" aria-label="Aboneja Ime">'+
+      return '<div class="screen" style="padding:0;overflow:hidden"><div class="intro" id="intro" data-skip="1" role="img" aria-label="Aboneja Ime">'+
         '<span class="glow"></span><div class="tile">'+BUS+'<span class="road"></span></div>'+
         '<div class="name">Aboneja Ime<span class="dot"></span></div>'+
       '</div></div>';
@@ -523,7 +526,7 @@
         '</section>'+
         '<div class="actions">'+
           '<button class="btn btn-acc" data-qr="'+a.id+'">'+I.qr+' Hap QR-në</button>'+
-          '<button class="btn btn-mint" data-go="buy">'+I.cart+' Rinovo abonimin</button>'+
+          '<button class="btn btn-mint-soft" data-go="buy">'+I.cart+' Rinovo abonimin</button>'+
         '</div>'+
         (state.subs.length>1 ? '<button class="mini" data-go="pass">'+I.ticketsm+' Ke '+state.subs.length+' abonime · shiko të gjitha</button>' : '')+
         
@@ -535,9 +538,9 @@
         '<div class="titlebar"><button class="sq" data-go="home" aria-label="Kthehu">'+I.back+'</button><h1 class="h" style="font-size:26px">Harta live</h1><span class="livebadge" style="margin-left:auto"><i></i>LIVE</span></div>'+
         '<div class="linepick" role="group" aria-label="Linja">'+Object.keys(LINES).map(function(x){ return '<button data-line="'+x+'" aria-pressed="'+(x===k)+'">'+x+'</button>'; }).join('')+'</div>'+
         '<div class="card mapbox">'+mapSvg(k)+
-          '<div class="legend"><span><i style="background:'+L.color+'"></i>Linja '+k+'</span><span><i style="background:#fff;box-shadow:0 0 0 2px '+L.color+'"></i>2 autobusë</span><span><i style="background:#E8833A"></i>Qytetarë në app</span></div>'+
+          '<div class="legend"><span><i style="background:'+L.color+'"></i>Linja '+k+'</span><span><i style="background:#fff;box-shadow:0 0 0 2px '+L.color+'"></i>2 autobusë</span><span><i style="background:#F5A524"></i>Qytetarë në app</span></div>'+
           '<div class="mapfoot"><span><b>'+k+'</b> · '+L.name+'</span><span>'+L.stops.length+' stacione</span></div></div>'+
-        '<div style="margin-top:14px">'+info(I.route,'Qytetarët shfaqen si pika <b>vetëm kur e kanë app-in hapur</b>, pa emra.')+'</div>'+
+        ''+
       '</div>';
     },
     buy:function(){
@@ -547,12 +550,12 @@
           var ka = state.subs.some(function(s){ return s.product===p.id; });
           return '<button class="product'+(ka?' current':'')+'" data-product="'+p.id+'">'+
             '<span class="pn">'+p.name+'</span>'+
-            '<span class="pp"><b class="num">'+p.price.toLocaleString('sq-AL')+'</b><span>Lekë/muaj</span></span>'+
+            '<span class="pp"><b class="num">'+nr(p.price)+'</b><span>Lekë · 30 ditë</span></span>'+
             '<span class="pd">'+p.desc+'</span>'+
             (ka?'<span class="badge badge-rose tag">E ke këtë</span>':'')+
           '</button>'; }).join('')+
         '</div>'+
-        '<div style="margin-top:16px">'+info(I.clock,'Çdo abonim vlen <b>30 ditë</b> nga çasti i blerjes.')+'</div>'+
+        ''+
       '</div>';
     },
     detail:function(){
@@ -576,7 +579,7 @@
       return '<div class="screen">'+
         backbar('buy', p.name)+
         '<div class="card detail">'+
-          '<div class="price num"><b>'+p.price.toLocaleString('sq-AL')+'</b><span>Lekë/muaj</span></div>'+
+          '<div class="price num"><b>'+nr(p.price)+'</b><span>Lekë · 30 ditë</span></div>'+
           '<ul class="incl">'+p.incl.map(function(x){return '<li>'+I.check+'<span>'+x+'</span></li>';}).join('')+'</ul>'+
           (p.opts.length?'<div style="display:flex;flex-direction:column;gap:8px"><span class="label">'+p.pick+'</span><div class="opts" role="radiogroup" aria-label="'+p.pick+'">'+
             p.opts.map(function(o,i){return '<button class="opt" role="radio" aria-checked="'+(i===state.choice)+'" data-choice="'+i+'"><span>'+o+'</span><span class="radio"></span></button>';}).join('')+
@@ -606,8 +609,8 @@
           '</article>';
         }).join('')+
         '</div>'+
-        '<button class="btn btn-mint" data-go="buy" style="margin-top:16px">'+I.cart+' Shto abonim</button>'+
-        '<div style="margin-top:14px">'+info(I.wifi,'QR-ja vjen nga serveri dhe rifreskohet çdo <b>2 minuta</b>.')+'</div>'+
+        '<button class="btn btn-mint-soft" data-go="buy" style="margin-top:16px">'+I.cart+' Shto abonim</button>'+
+        ''+
       '</div>';
     },
     // ── TURISTI (vetëm dizajn, jashtë demos) ────────────────────────────────
@@ -668,7 +671,7 @@
               '<p class="cap">Zgjidh njërën nga tri biletat javore.</p>'+
               '<button class="btn btn-mint" data-go="tbuy" style="margin-top:6px">'+I.cart+' Bli biletën</button>'+
             '</section>')+
-        '<div style="margin-top:16px">'+info(I.route,'Harta tregon linjat dhe stacionet e qytetit.')+'</div>'+
+        ''+
       '</div>';
     },
     taccount:function(){
@@ -685,7 +688,7 @@
             '<button data-setmode="light" aria-pressed="'+(state.mode==='light')+'">Light</button><button data-setmode="dark" aria-pressed="'+(state.mode==='dark')+'">Dark</button></div></div>'+
           '<button class="setting" data-soon="1"><span class="si">'+I.history+'</span>Biletat e mëparshme</button>'+
         '</div>'+
-        '<div style="margin-top:14px">'+info(I.info,'Të dhënat e turistëve rrinë te <b>databaza e tyre</b>, e ndarë nga ajo e qytetarëve.')+'</div>'+
+        ''+
         '<div class="spacer" style="min-height:18px"></div>'+
         '<button class="btn btn-danger" data-go="welcome">Dil nga llogaria</button>'+
       '</div>';
@@ -697,11 +700,11 @@
         '<div class="card products" style="margin-top:18px">'+ TURIST.map(function(p){
           return '<button class="product" data-tprod="'+p.id+'">'+
             '<span class="pn">'+p.name+'</span>'+
-            '<span class="pp"><b class="num">'+p.price.toLocaleString('sq-AL')+'</b><span>Lekë / 7 ditë</span></span>'+
+            '<span class="pp"><b class="num">'+nr(p.price)+'</b><span>Lekë / 7 ditë</span></span>'+
             '<span class="pd">'+p.scope+'</span>'+
           '</button>'; }).join('')+
         '</div>'+
-        '<div style="margin-top:16px">'+info(I.info,'Turisti paguan me kartë dhe e merr QR-në në çast, te llogaria e tij me pasaportë.')+'</div>'+
+        ''+
       '</div>';
     },
     tpass:function(){
@@ -715,7 +718,7 @@
             '<div style="padding:0 2px">'+countdown('t')+'</div>'+
             '<div class="kv">'+
               '<div><span class="label">Bileta</span><b>'+p.name+'</b></div>'+
-              '<div><span class="label">Çmimi</span><b class="num">'+p.price.toLocaleString('sq-AL')+' L</b></div>'+
+              '<div><span class="label">Çmimi</span><b class="num">'+nr(p.price)+' L</b></div>'+
               '<div><span class="label">Vlen</span><b class="num">'+data(nis)+' – '+data(TFUND)+'</b></div>'+
               '<div><span class="label">Udhëtime</span><b>Pa kufi</b></div>'+
             '</div>'+
@@ -752,7 +755,7 @@
             '<span style="font-weight:500;font-size:14px;color:var(--ink-3);line-height:1.4">E mban faturino ose kontrollori. Çiftëzimi bie kur mbyllet turni.</span>'+
           '</button>'+
         '</div>'+
-        '<div style="margin-top:16px">'+info(I.info,'Të dyja çiftëzohen me kod dhe sekret. Linjën e cakton administrata te terminali.')+'</div>'+
+        ''+
       '</div>';
     },
     pair:function(){
@@ -764,7 +767,7 @@
         '<p class="sub-h">'+(bus?'Çiftëzohet një herë dhe rri ashtu.':'Kodi dhe sekreti rrinë vetëm në këtë pajisje, sa zgjat turni.')+'</p>'+
         '<div class="card form">'+field('tcode','Kodi i pajisjes',I.hash, bus?'BUS-L7-014':'DORE-L7-207')+field('tsec','Sekreti',I.lock,'••••••••••••','password')+
           '<button class="btn btn-mint" data-pair="1">Çiftëzo dhe vazhdo</button></div>'+
-        '<div style="margin-top:14px">'+info(I.route,'Linja vendoset nga administrata te terminali, jo nga skanimi. Terminal pa linjë nuk lejon kalim.')+'</div>'+
+        ''+
       '</div>';
     },
     camera:function(){
@@ -815,7 +818,7 @@
         '<p class="sub-h">Kur kamera nuk lexon dot — kodi shkruhet me dorë.</p>'+
         '<div class="card form">'+field('vcode','Kodi i abonimit',I.hash,'ABN-7Q4K-2MX9')+
           '<button class="btn btn-navy" data-verdict="0">Verifiko</button></div>'+
-        '<div style="margin-top:14px">'+info(I.info,'Verifikimi manual regjistrohet njësoj si skanimi.')+'</div>'+
+        ''+
       '</div>';
     },
     // ── STAFI ───────────────────────────────────────────────────────────────
@@ -851,10 +854,10 @@
         (s==='para' ? (
           '<section class="card split" aria-label="Ndarja e të ardhurave">'+
             '<b style="font-size:17px">Ndarja e të ardhurave</b>'+
-            '<div class="splitbar" aria-hidden="true"><i style="width:72%;background:#2C3D62"></i><i style="width:18%;background:#21BFB0"></i><i style="width:10%;background:#E8833A"></i></div>'+
-            '<div class="row2"><i style="background:#2C3D62"></i>Kompania<b class="num">179 000 L</b></div>'+
-            '<div class="row2"><i style="background:#21BFB0"></i>Poli universal<b class="num">44 700 L</b></div>'+
-            '<div class="row2"><i style="background:#E8833A"></i>Komisioni i platformës<b class="num">24 900 L</b></div>'+
+            '<div class="splitbar" aria-hidden="true"><i style="width:72%;background:#4B3FD8"></i><i style="width:18%;background:#34D399"></i><i style="width:10%;background:#F5A524"></i></div>'+
+            '<div class="row2"><i style="background:#4B3FD8"></i>Kompania<b class="num">179 000 L</b></div>'+
+            '<div class="row2"><i style="background:#34D399"></i>Poli universal<b class="num">44 700 L</b></div>'+
+            '<div class="row2"><i style="background:#F5A524"></i>Komisioni i platformës<b class="num">24 900 L</b></div>'+
           '</section>'+
           '<div class="stat">'+
             '<div><b class="num">248 600 L</b><span>Bruto shtator</span></div>'+
@@ -862,7 +865,7 @@
             '<div><b class="num">44 700 L</b><span>Nga poli universal</span></div>'+
             '<div><b class="num">62 400 L</b><span>Gati për tërheqje</span></div>'+
           '</div>'+
-          '<div style="margin-top:14px">'+info(I.info,'Komisioni sot është <b>shadow fee</b>: shifra del, paraja nuk lëviz derisa të hapet porta.')+'</div>'+
+          ''+
           '<button class="btn btn-mint" style="margin-top:14px" data-req="1">'+I.wallet+' Kërko tërheqje</button>'
         ) : '')+
         (s==='kerkesa' ? (
@@ -874,7 +877,7 @@
               '</article>';
             }).join('')+
           '</div>'+
-          '<div style="margin-top:14px">'+info(I.info,'Çdo miratim shkruhet te regjistri i parave dhe nuk fshihet.')+'</div>'
+          ''
         ) : '')+
         (s==='term' ? (
           '<div class="reqs">'+
@@ -883,7 +886,7 @@
                 '<div class="rwho">'+t.lloj+' · Linja '+t.linja+'</div><div class="cap">'+t.info+'</div></article>';
             }).join('')+
           '</div>'+
-          '<div style="margin-top:14px">'+info(I.route,'Terminal pa linjë refuzon çdo abonim linje. Linjën e cakton ti këtu.')+'</div>'+
+          ''+
           '<button class="btn btn-soft" style="margin-top:14px" data-soon="1">'+I.plus+' Shto terminal</button>'
         ) : '')+
       '</div>';
@@ -929,7 +932,7 @@
     var qr = state.online
       ? '<div class="qrframe"><svg class="ring" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="115" fill="none" stroke="var(--line-soft)" stroke-width="5"/><circle id="ring" class="ringfill" cx="120" cy="120" r="115" fill="none" stroke="#6EB984" stroke-width="5" stroke-linecap="round" stroke-dasharray="722.6" stroke-dashoffset="0"/></svg><div class="qrwrap"><div class="qr" id="qr" role="img" aria-label="Kodi QR i abonimit"></div></div></div>'+
         '<p class="timer">'+I.clock+'<span>Rifreskohet pas <b id="secs">2:00</b></span></p>'+
-        '<p class="cap" style="text-align:center;margin:-6px 0 0">QR-ja vjen nga serveri dhe kërkon internet.</p>'
+        ''
       : '<div class="offline" style="align-self:center">'+I.wifioff+'<b>Pa internet</b><span>Lidhuni dhe QR-ja shfaqet vetë.</span></div>';
     // Ngjyra vjen nga tema e telefonit: turisti jeshile, qytetari sipas gjinisë (më parë turisti
     // merrte gjininë e qytetarit — Marco dilte me kokë rozë).
@@ -950,12 +953,12 @@
   // Operatori ka dy sipërfaqe në V1 — `Scanner` dhe `VerifyTicket` (src/lib/edicioni.js).
   var TABS_OP = [['scan','Skano',I.scan],['verify','Verifiko',I.hash]];
   var TAB_OF_OP = {scan:'scan',scanres:'scan',verify:'verify'};
-  var tick = null, introTimer = null, typeTimers = [], cdTick = null;
+  var tick = null, introTimer = null, typeTimers = [], cdTick = null, ekraniIFundit = null;
 
   function drawQR(){
     var q = document.getElementById('qr'); if(!q) return;
     q.innerHTML = '';
-    if(window.QRCode){ new QRCode(q,{text:'aboneja:pass:'+state.pass.token,width:344,height:344,colorDark:'#2C3D62',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }
+    if(window.QRCode){ new QRCode(q,{text:'aboneja:pass:'+state.pass.token,width:344,height:344,colorDark:'#1B1F4B',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }
     else { q.textContent = state.pass.token; }
   }
   function runTimer(){
@@ -1018,7 +1021,11 @@
     if(tema) $phone.dataset.tema = tema; else $phone.removeAttribute('data-tema');
     if(state.screen==='intro') $phone.setAttribute('data-intro',''); else $phone.removeAttribute('data-intro');
     var tmp = document.createElement('div'); tmp.innerHTML = views[state.screen]();
-    var fresh = tmp.firstChild; fresh.id = 'screen'; $screen.replaceWith(fresh); $screen = fresh;
+    var fresh = tmp.firstChild; fresh.id = 'screen';
+    // Një zgjedhje brenda të njëjtit ekran (dokumenti, gjinia, gjuha) nuk e rinis animacionin e hyrjes.
+    if(state.screen === ekraniIFundit) fresh.classList.add('noanim');
+    ekraniIFundit = state.screen;
+    $screen.replaceWith(fresh); $screen = fresh;
     var op = TAB_OF_OP[state.screen], tu = TAB_OF_T[state.screen];
     var tab = op || tu || TAB_OF[state.screen];
     var lista = op ? TABS_OP : (tu ? TABS_T : TABS);
@@ -1039,7 +1046,7 @@
     runCountdown();
     runFeed();
     var qt = document.getElementById('qr-t');
-    if(qt && window.QRCode){ qt.innerHTML = ''; new QRCode(qt,{text:'aboneja:turist:demo-7d',width:344,height:344,colorDark:'#2C3D62',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }
+    if(qt && window.QRCode){ qt.innerHTML = ''; new QRCode(qt,{text:'aboneja:turist:demo-7d',width:344,height:344,colorDark:'#1B1F4B',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }
     if(state.screen==='welcome') runTyping();
     clearTimeout(introTimer);
     if(state.screen==='intro') introTimer = setTimeout(leaveIntro, reduced ? 900 : 2400);
