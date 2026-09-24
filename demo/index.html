@@ -37,6 +37,15 @@ body{background:var(--stage);color:var(--stage-ink);font-family:var(--font-text)
 .modes button{all:unset;cursor:pointer;flex:1;text-align:center;padding:8px 0;border-radius:11px;font-weight:700;font-size:13px;color:var(--stage-soft)}
 .modes button[aria-pressed="true"]{background:var(--stage-accent);color:var(--stage-card)}
 .modes button:focus-visible{outline:2px solid var(--stage-accent);outline-offset:2px}
+.udhezuesi{border:1px solid var(--stage-line);background:var(--stage-card);border-radius:14px;padding:12px 14px;font-size:13.5px;color:var(--stage-ink)}
+.udhezuesi summary{cursor:pointer;font-weight:700;font-size:14px}
+.udhezuesi summary:focus-visible{outline:2px solid var(--stage-accent);outline-offset:2px}
+.udhezuesi ol{margin:10px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.udhezuesi p{margin:10px 0 0;color:var(--stage-soft);font-size:13px}
+.udhezuesi .shenim{font-size:12.5px}
+.udhezuesi .hyrjet{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.udhezuesi .hyrjet a{font-size:12.5px;font-weight:700;color:var(--stage-accent);border:1px solid var(--stage-line);border-radius:999px;padding:4px 10px;text-decoration:none}
+.udhezuesi .hyrjet a:focus-visible{outline:2px solid var(--stage-accent);outline-offset:2px}
 .excluded{font-size:13px;color:var(--stage-soft);border-top:1px solid var(--stage-line);padding-top:14px}
 .excluded b{color:var(--stage-ink);font-weight:600}
 
@@ -747,6 +756,20 @@ body{background:var(--stage);color:var(--stage-ink);font-family:var(--font-text)
       <h1>Aboneja Ime V1</h1>
       <p>Prototip interaktiv i aplikacionit. Të dhënat janë demo — asgjë nuk paguhet.</p>
     </div>
+    <details class="udhezuesi" id="udhezuesi" open>
+      <summary>Si ta provosh</summary>
+      <ol>
+        <li><b>Qytetari</b> — Vazhdo → Qytetar → Hyr. Arta ka një abonim L7 aktiv: shtyp «Hap QR-në».</li>
+        <li><b>Turisti</b> — Kush je? → Turist. Bli një biletë javore dhe hap QR-në e saj.</li>
+        <li><b>Operatori</b> — zgjidh terminalin, pastaj përgjigjen e serverit te skaneri.</li>
+        <li><b>Stafi</b> — paneli i kompanisë: skanimet live, paratë, kërkesat, terminalet.</li>
+      </ol>
+      <div class="hyrjet" aria-label="Hyrje direkte">
+        <a href="#mirsevini">Mirësevini</a><a href="#qytetar">Qytetari</a><a href="#turist">Turisti</a><a href="#operator">Operatori</a><a href="#staf">Stafi</a>
+      </div>
+      <p>Ngjyra ndjek udhëtarin: rozë për Artën, blu për Arditin, mente për turistin. Gjuha ndërrohet brenda app-it (SQ | EN).</p>
+      <p class="shenim">Sot shitet vetëm abonimi 30-ditor (V1). Turisti vjen me përditësimin e ardhshëm — këtu shihet si prototip.</p>
+    </details>
     <div class="modes" role="group" aria-label="Tema e prototipit">
       <button type="button" id="m-light" data-mode="light">Light</button>
       <button type="button" id="m-dark" data-mode="dark">Dark</button>
@@ -768,7 +791,7 @@ body{background:var(--stage);color:var(--stage-ink);font-family:var(--font-text)
   </div>
 </div>
 
-<script src="prototip.js?v=756fa086"></script>
+<script src="prototip.js?v=020d9a17"></script>
 
 </body>
 </html>

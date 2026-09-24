@@ -229,6 +229,8 @@
     'Kërkesa për tërheqje u dërgua — pret miratimin.':'Withdrawal request sent — awaiting approval.','U miratua. Shkruhet te regjistri i parave.':'Approved. Written to the money ledger.',
     'U refuzua.':'Rejected.',
     'Verifikim me kod':'Verify with code','Skano tjetrin':'Scan the next one','Abonime aktive':'Active passes',
+    'Bli biletë':'Buy a ticket','Bli biletë tjetër':'Buy another ticket','E vlefshme':'Valid','Ende pa biletë.':'No ticket yet.',
+    'Bileta u ble — 7 ditë nga tani.':'Ticket bought — valid for 7 days from now.',
     'Terminale online':'Terminals online','Skanimet e fundit':'Latest scans','skanimet e fundit':'latest scans','Kompania':'Company'
   });
   // Rreshtat me numra ose data nuk kapen dot me fjalor: përkthehen me modele.
@@ -244,6 +246,7 @@
     [/^(\d+) ditë$/, function(m){ return m[1]+' days'; }],
     [/^Linja (\S+)$/, function(m){ return 'Line '+m[1]; }],
     [/^Ke (\d+) abonime$/, function(m){ return 'You have '+m[1]+' subscriptions'; }],
+    [/^Ke (\d+) bileta$/, function(m){ return 'You have '+m[1]+' tickets'; }],
     [/^Skanimi i fundit: (\d+) min më parë$/, function(m){ return 'Last scan: '+m[1]+' min ago'; }],
     [/^Faturino: (.+)$/, function(m){ return 'Conductor: '+m[1]; }],
     [/^turni (.+)$/, function(m){ return 'shift '+m[1]; }],
@@ -274,7 +277,6 @@
     });
   }
   var NOW = new Date(2026, 8, 19, 22, 14);
-  var TFUND = new Date(2026, 8, 25, 14, 0);   // bileta javore e turistit: blerë 18, skadon 25 shtator
   function plus30(d){ var x = new Date(d.getTime()); x.setDate(x.getDate()+30); return x; }
   function data(d){ return d.getDate()+' '+MUAJ[d.getMonth()]; }
   function ora(d){ return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
@@ -283,7 +285,7 @@
   var state = {
     screen:'intro', mode:'light', selected:'line', choice:0, roleNote:false, done:false, notif:true, online:true,
     tab:'login', regStep:0, doc:'id', gender:'f', lang:'sq', ctx:'', toast:null, drawer:false, qrOpen:false, qrSub:'s1', mapLine:'L7', typed:false,
-    paired:false, verdict:0, tmode:'hand', cam:false, camDenied:false, stTab:'live', tprod:'t-line', tStep:0, tGender:'m', tKa:false,
+    paired:false, verdict:0, tmode:'hand', cam:false, camDenied:false, stTab:'live', tprod:'t-line', tStep:0, tGender:'m', tBileta:[],
     subs:[{id:'s1', product:'line', scope:'L7 · Kamëz – Qendër', from:new Date(2026, 8, 12, 8, 30)}],
     primary:'s1', nr:1,
     pass:{token:null, expires:0}
@@ -297,14 +299,20 @@
   // Adresa mund ta hapë prototipin direkt te një kategori: /demo/#turist, #operator, #staf.
   // Kabina e përdor këtë për butonat «Hap dizajnin».
   var HYRJET = { qytetar:'home', turist:'thome', operator:'scan', staf:'staff', mirsevini:'welcome' };
-  (function nisNgaAdresa(){
+  function hyrjaNgaAdresa(){
     var h = (location.hash || '').replace('#','').toLowerCase();
-    if(!HYRJET[h]) return;
+    if(!HYRJET[h]) return false;
     state.screen = HYRJET[h];
-    state.typed = true;
+    state.typed = true; state.drawer = false; state.qrOpen = false;
     if(h === 'operator'){ state.paired = true; state.cam = true; }
-    if(h === 'turist'){ state.tKa = true; }
-  })();
+    // Turisti i demos ka një biletë të blerë më 18 shtator (skadon më 25).
+    if(h === 'turist' && !state.tBileta.length){ tBlej('t-line', new Date(2026, 8, 18, 14, 0)); }
+    return true;
+  }
+  hyrjaNgaAdresa();
+  try{ if(window.matchMedia && matchMedia('(max-width: 820px)').matches){ var ud = document.getElementById('udhezuesi'); if(ud) ud.open = false; } }catch(e){}
+  // Lidhjet e panelit ndryshojnë vetëm #-in: ekrani ndërrohet pa ringarkuar faqen.
+  window.addEventListener('hashchange', function(){ if(hyrjaNgaAdresa()) render(); });
 
   var $screen = document.getElementById('screen'), $tabbar = document.getElementById('tabbar'), $phone = document.getElementById('phone'), $jump = document.getElementById('jump'), $overlay = document.getElementById('overlay');
   function prod(id){ for(var i=0;i<PRODUCTS.length;i++) if(PRODUCTS[i].id===id) return PRODUCTS[i]; }
@@ -316,6 +324,19 @@
   function place(s){ return s.split(' · ')[1] || s; }
   function info(icon, html){ return '<div class="info"><span class="ii">'+icon+'</span><span>'+html+'</span></div>'; }
   // Qytetari i demos ndjek gjininë e zgjedhur: Arta / Ardit Kola (inicialet AK për të dy).
+  // Turisti: çdo blerje është biletë e re 7-ditore nga çasti i blerjes. Më parë kishte një datë të
+  // ngulitur (25 shtator) dhe blerja e dytë fshinte të parën.
+  function tProd(id){ return TURIST.filter(function(x){ return x.id===id; })[0] || TURIST[0]; }
+  function tBlej(prodId, nga){
+    var b = {id:'b'+(++state.nr), prod:prodId, from:new Date((nga || NOW).getTime())};
+    b.to = new Date(b.from.getTime() + 7*86400000);
+    state.tBileta.push(b); state.tprod = prodId; return b;
+  }
+  function tBiletaAktive(){ return state.tBileta[state.tBileta.length-1] || null; }
+  function tBileta(id){ for(var i=0;i<state.tBileta.length;i++) if(state.tBileta[i].id===id) return state.tBileta[i]; return tBiletaAktive(); }
+  function tEmri(){ return state.tGender==='f' ? 'Giulia' : 'Marco'; }
+  function tEmriPlote(){ return tEmri()+' Rossi'; }
+  function tEmaili(){ return (state.tGender==='f' ? 'giulia' : 'marco')+'.rossi@example.it'; }
   function emri(){ return state.gender==='f' ? 'Arta' : 'Ardit'; }
   function emriPlote(){ return emri()+' Kola'; }
   function emaili(){ return (state.gender==='f' ? 'arta' : 'ardit')+'.kola@shembull.al'; }
@@ -356,7 +377,8 @@
     clearInterval(cdTick);
     // Turisti numëron biletën e vet javore; qytetari abonimin e tij.
     var turist = Boolean(document.getElementById('t-d'));
-    var mbetja = (turist ? TFUND : cur().to) - NOW; // sa kohë i ka mbetur në kohën e demos
+    var tb = tBiletaAktive();
+    var mbetja = (turist ? (tb ? tb.to : NOW) : cur().to) - NOW; // sa kohë i ka mbetur në kohën e demos
     var cel = Date.now() + mbetja;                  // e kthyer te ora e vërtetë, që të ecë vërtet
     function upd(){
       var ms = Math.max(0, cel - Date.now());
@@ -535,7 +557,7 @@
     map:function(){
       var k = state.mapLine, L = LINES[k];
       return '<div class="screen">'+
-        '<div class="titlebar"><button class="sq" data-go="home" aria-label="Kthehu">'+I.back+'</button><h1 class="h" style="font-size:26px">Harta live</h1><span class="livebadge" style="margin-left:auto"><i></i>LIVE</span></div>'+
+        '<div class="titlebar"><button class="sq" data-go="'+(state.ctx==='t'?'thome':'home')+'" aria-label="Kthehu">'+I.back+'</button><h1 class="h" style="font-size:26px">Harta live</h1><span class="livebadge" style="margin-left:auto"><i></i>LIVE</span></div>'+
         '<div class="linepick" role="group" aria-label="Linja">'+Object.keys(LINES).map(function(x){ return '<button data-line="'+x+'" aria-pressed="'+(x===k)+'">'+x+'</button>'; }).join('')+'</div>'+
         '<div class="card mapbox">'+mapSvg(k)+
           '<div class="legend"><span><i style="background:'+L.color+'"></i>Linja '+k+'</span><span><i style="background:#fff;box-shadow:0 0 0 2px '+L.color+'"></i>2 autobusë</span><span><i style="background:#E8833A"></i>Qytetarë në app</span></div>'+
@@ -621,7 +643,7 @@
       var bars = emrat.map(function(_,i){ return '<i class="'+(i<=n?'on':'')+'"></i>'; }).join('');
       var body = '';
       if(n===0) body = '<h1 class="h">Kush je?</h1><p class="sub-h" style="margin-top:6px">Si te pasaporta jote.</p><div class="card form">'+
-          field('tfn','Emri',I.person,'Marco')+field('tln','Mbiemri',I.person,'Rossi')+
+          field('tfn','Emri',I.person,tEmri())+field('tln','Mbiemri',I.person,'Rossi')+
           field('tnid','Numri i pasaportës',I.hash,'YA1234567')+
           '<div class="field"><span class="label" style="font-size:14px;font-weight:600;color:var(--ink-2)">Gjinia</span>'+
             '<div class="gender" role="radiogroup" aria-label="Gjinia">'+
@@ -631,8 +653,8 @@
       if(n===1) body = '<h1 class="h">Nga vjen?</h1><div class="card form">'+
           field('tdob','Datëlindja',I.cake,'03.07.1994')+field('tcountry','Shteti',I.flag,'Itali')+'</div>';
       if(n===2) body = '<h1 class="h">Emaili</h1><p class="sub-h" style="margin-top:6px">Këtu të vjen bileta, dhe këtu hyn sërish nëse humbet telefonin.</p><div class="card form">'+
-          field('tem','Email',I.mail,'marco.rossi@example.it','email')+field('tpw','Fjalëkalimi',I.lock,'demo-demo-demo','password')+'</div>';
-      if(n===3) body = '<h1 class="h">Kodi në email</h1><p class="sub-h" style="margin-top:8px">Dërguar te m•••@example.it</p><div class="card form"><div class="otp">'+
+          field('tem','Email',I.mail,tEmaili(),'email')+field('tpw','Fjalëkalimi',I.lock,'demo-demo-demo','password')+'</div>';
+      if(n===3) body = '<h1 class="h">Kodi në email</h1><p class="sub-h" style="margin-top:8px">Dërguar te '+(state.tGender==='f'?'g':'m')+'•••@example.it</p><div class="card form"><div class="otp">'+
           '713904'.split('').map(function(d){ return '<span class="on">'+d+'</span>'; }).join('')+'</div></div>';
       if(n===4) body = '<div class="seal" data-g="t">'+
           '<span class="rings" aria-hidden="true"><i></i><i></i><i></i></span>'+
@@ -650,21 +672,22 @@
       '</div>';
     },
     thome:function(){
-      var p = TURIST.filter(function(x){ return x.id===state.tprod; })[0] || TURIST[0];
-      var emri = state.tGender==='f' ? 'Giulia' : 'Marco';
+      var b = tBiletaAktive(), p = b ? tProd(b.prod) : null;
+      var emri = tEmri();
       return '<div class="screen">'+
         '<div class="head"><button class="sq" data-drawer="1" aria-label="Menuja">'+I.menu+'</button>'+
           '<button class="avatar avbtn" data-go="taccount" aria-label="Profili" style="width:52px;height:52px;border-radius:16px;display:grid;place-items:center">'+I.globe2+'</button>'+
           '<div><h1 style="font-size:20px">Mirëseerdhe,<br>'+emri+'!</h1></div>'+
           '<button class="sq" data-soon="1" aria-label="Njoftimet">'+I.bell+'</button></div>'+
-        (state.tKa
+        (b
           ? '<section class="card subcard tcard">'+
               '<div class="row"><span class="badge tbadge">Aktive</span><span style="font-weight:700;opacity:.85">7 ditë</span></div>'+
               '<p class="prod">'+p.name+'</p>'+
-              '<div class="line tline">Skadon '+data(TFUND)+', '+ora(TFUND)+'</div>'+
+              '<div class="line tline">Skadon '+data(b.to)+', '+ora(b.to)+'</div>'+
               countdown('t')+
-              '<button class="btn tqr" data-qr="turist">'+I.qr+' Hap QR-në</button>'+
-            '</section>'
+              '<button class="btn tqr" data-qr="t:'+b.id+'">'+I.qr+' Hap QR-në</button>'+
+            '</section>'+
+            (state.tBileta.length > 1 ? '<button class="mini" data-go="tpass">'+I.ticketsm+' Ke '+state.tBileta.length+' bileta · shiko të gjitha</button>' : '')
           : '<section class="card subcard" style="align-items:center;text-align:center;gap:10px">'+
               '<span class="tflag" style="align-self:center">'+I.globe2+' Vizitor</span>'+
               '<p class="prod" style="font-size:20px">Ende pa biletë</p>'+
@@ -678,7 +701,7 @@
       return '<div class="screen">'+
         backbar('thome','Profili')+
         '<div class="card me"><div class="avatar">'+(state.tGender==='f'?'GR':'MR')+'</div>'+
-          '<div><b>'+(state.tGender==='f'?'Giulia Rossi':'Marco Rossi')+'</b><span class="cap">marco.rossi@example.it</span>'+
+          '<div><b>'+tEmriPlote()+'</b><span class="cap">'+tEmaili()+'</span>'+
           '<div style="margin-top:6px"><span class="tflag">'+I.flag+' Itali</span></div></div></div>'+
         '<div class="card settings">'+
           '<button class="setting"><span class="si">'+I.hash+'</span>Pasaporta<span class="end">YA••••567</span></button>'+
@@ -695,37 +718,41 @@
     },
     tbuy:function(){
       return '<div class="screen">'+
-        '<div class="titlebar"><button class="sq" data-go="thome" aria-label="Kthehu">'+I.back+'</button><h1 class="h" style="font-size:24px">Biletë javore</h1><span class="badge badge-mint" style="margin-left:auto">Së shpejti</span></div>'+
+        '<div class="titlebar"><button class="sq" data-go="thome" aria-label="Kthehu">'+I.back+'</button><h1 class="h" style="font-size:24px">Biletë javore</h1></div>'+
         '<p class="sub-h" style="margin-top:6px">Shtatë ditë udhëtime pa kufi.</p>'+
         '<div class="card products" style="margin-top:18px">'+ TURIST.map(function(p){
-          return '<button class="product" data-tprod="'+p.id+'">'+
+          var ka = state.tBileta.some(function(b){ return b.prod===p.id; });
+          return '<button class="product'+(ka?' current':'')+'" data-tprod="'+p.id+'">'+
             '<span class="pn">'+p.name+'</span>'+
             '<span class="pp"><b class="num">'+nr(p.price)+'</b><span>Lekë / 7 ditë</span></span>'+
             '<span class="pd">'+p.scope+'</span>'+
+            (ka?'<span class="badge badge-rose tag">E ke këtë</span>':'')+
           '</button>'; }).join('')+
         '</div>'+
         ''+
       '</div>';
     },
     tpass:function(){
-      var p = TURIST.filter(function(x){ return x.id===state.tprod; })[0] || TURIST[0];
-      var nis = new Date(TFUND.getTime() - 7*86400000);
+      var lista = state.tBileta.slice().reverse();
       return '<div class="screen">'+
         '<div class="titlebar"><button class="sq" data-go="thome" aria-label="Kthehu">'+I.back+'</button><h1 class="h" style="font-size:24px">Biletat e mia</h1></div>'+
-        '<article class="card pass" style="margin-top:16px">'+
-          '<div class="pass-top"><span class="ok">'+I.okcheck+'</span><div><b>Mund të udhëtosh tani</b><span>Skadon '+data(TFUND)+', '+ora(TFUND)+'</span></div></div>'+
-          '<div class="pass-body">'+
-            '<div style="padding:0 2px">'+countdown('t')+'</div>'+
-            '<div class="kv">'+
-              '<div><span class="label">Bileta</span><b>'+p.name+'</b></div>'+
-              '<div><span class="label">Çmimi</span><b class="num">'+nr(p.price)+' L</b></div>'+
-              '<div><span class="label">Vlen</span><b class="num">'+data(nis)+' – '+data(TFUND)+'</b></div>'+
-              '<div><span class="label">Udhëtime</span><b>Pa kufi</b></div>'+
+        (lista.length ? '' : '<p class="sub-h" style="margin-top:10px">Ende pa biletë.</p>')+
+        lista.map(function(b, i){
+          var p = tProd(b.prod);
+          return '<article class="card pass" style="margin-top:16px">'+
+            '<div class="pass-top"><span class="ok">'+I.okcheck+'</span><div><b>'+(i===0?'Mund të udhëtosh tani':'E vlefshme')+'</b><span>Skadon '+data(b.to)+', '+ora(b.to)+'</span></div></div>'+
+            '<div class="pass-body">'+
+              (i===0 ? '<div style="padding:0 2px">'+countdown('t')+'</div>' : '')+
+              '<div class="kv">'+
+                '<div><span class="label">Bileta</span><b>'+p.name+'</b></div>'+
+                '<div><span class="label">Çmimi</span><b class="num">'+nr(p.price)+' L</b></div>'+
+                '<div><span class="label">Vlen</span><b class="num">'+data(b.from)+' – '+data(b.to)+'</b></div>'+
+                '<div><span class="label">Udhëtime</span><b>Pa kufi</b></div>'+
+              '</div>'+
+              '<button class="btn btn-acc" data-qr="t:'+b.id+'">'+I.qr+' Hap QR-në</button>'+
             '</div>'+
-            '<button class="btn btn-acc" data-qr="turist">'+I.qr+' Hap QR-në</button>'+
-          '</div>'+
-        '</article>'+
-        '<div class="actions" style="margin-top:16px"><button class="btn btn-soft" data-go="map">'+I.pin+' Harta e linjave</button></div>'+
+          '</article>'; }).join('')+
+        '<div class="actions" style="margin-top:16px"><button class="btn btn-mint-soft" data-go="tbuy">'+I.cart+' Bli biletë tjetër</button></div>'+
       '</div>';
     },
     // ── OPERATORI ───────────────────────────────────────────────────────────
@@ -908,7 +935,23 @@
     }
   };
 
+  function drawerTuristi(){
+    var b = tBiletaAktive(), tani = state.screen;
+    function mi(go,label,icon,cls){ return '<button class="mi'+(cls?' '+cls:'')+'" data-go="'+go+'"'+(go===tani?' aria-current="page"':'')+'><span class="si">'+icon+'</span>'+label+'</button>'; }
+    return '<div class="drawer-bg" data-closedrawer="1"></div><nav class="drawer" aria-label="Menuja">'+
+      '<div class="me2"><span class="photo">'+(state.tGender==='f'?'GR':'MR')+'</span><div><b>'+tEmriPlote()+'</b><span class="cap">Vizitor</span></div></div>'+
+      (b ? '<div class="act"><span>'+tProd(b.prod).name+'</span><b class="num">'+ditetMbetur(b.to)+' ditë</b></div>'
+         : '<div class="act"><span>Ende pa biletë</span><b>—</b></div>')+
+      '<h4>Navigimi</h4>'+
+      mi('thome','Kreu',I.homesm)+mi('map','Harta',I.pinsm)+mi('tbuy','Bli biletë',I.plussm)+mi('tpass','Biletat e mia',I.ticketsm)+
+      mi('taccount','Profili',I.usersm)+
+      '<div class="mi sub" style="cursor:default"><span class="si">'+I.lang+'</span>Gjuha<span style="margin-left:auto">'+langSw()+'</span></div>'+
+      '<div class="spacer" style="min-height:14px"></div>'+
+      mi('welcome','Dil',I.logout,'out')+
+    '</nav>';
+  }
   function drawer(){
+    if(state.ctx === 't') return drawerTuristi();
     var a = cur(), p = prod(a.product), tani = state.screen;
     function mi(go,label,icon,cls){ return '<button class="mi'+(cls?' '+cls:'')+'" data-go="'+go+'"'+(go===tani?' aria-current="page"':'')+'><span class="si">'+icon+'</span>'+label+'</button>'; }
     return '<div class="drawer-bg" data-closedrawer="1"></div><nav class="drawer" aria-label="Menuja">'+
@@ -925,9 +968,10 @@
   }
   function qrModal(){
     // Turisti hap të njëjtën dritare, me biletën e vet.
-    var turist = state.qrSub === 'turist';
-    var tp = TURIST.filter(function(x){ return x.id===state.tprod; })[0] || TURIST[0];
-    var a = turist ? {product:'t', scope:tp.name, to:TFUND} : sub(state.qrSub);
+    var turist = String(state.qrSub).indexOf('t:') === 0;
+    var tb = turist ? tBileta(String(state.qrSub).slice(2)) : null;
+    var tp = tb ? tProd(tb.prod) : TURIST[0];
+    var a = turist ? {product:'t', scope:tp.name, to:(tb ? tb.to : NOW)} : sub(state.qrSub);
     var p = turist ? {name:'Biletë javore', short:'Javore'} : prod(a.product);
     var qr = state.online
       ? '<div class="qrframe"><svg class="ring" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="115" fill="none" stroke="var(--line-soft)" stroke-width="5"/><circle id="ring" class="ringfill" cx="120" cy="120" r="115" fill="none" stroke="#6EB984" stroke-width="5" stroke-linecap="round" stroke-dasharray="722.6" stroke-dashoffset="0"/></svg><div class="qrwrap"><div class="qr" id="qr" role="img" aria-label="Kodi QR i abonimit"></div></div></div>'+
@@ -940,7 +984,7 @@
       '<div class="qh"><small>'+(turist?'Biletë javore':'Abonim mujor')+'</small><b>'+(turist?tp.name:p.name)+'</b><span>'+(turist?'7 ditë':scopeLabel(a))+'</span><button class="x" data-closeqr="1" aria-label="Mbyll">'+I.x+'</button></div>'+
       '<div class="face"><span class="photo">'+(turist?(state.tGender==='f'?'GR':'MR'):'AK')+'</span><small>Fotoja për kontrollorin</small></div>'+
       '<div class="qb">'+qr+
-        '<div class="rows"><div><span>Udhëtari</span><b>'+(turist?(state.tGender==='f'?'Giulia Rossi':'Marco Rossi'):emriPlote())+'</b></div><div><span>Skadon</span><b class="num">'+data(a.to)+', '+ora(a.to)+'</b></div><div><span>Statusi</span><b class="qstatus">'+I.check+'<span>I vlefshëm</span></b></div></div>'+
+        '<div class="rows"><div><span>Udhëtari</span><b>'+(turist?tEmriPlote():emriPlote())+'</b></div><div><span>Skadon</span><b class="num">'+data(a.to)+', '+ora(a.to)+'</b></div><div><span>Statusi</span><b class="qstatus">'+I.check+'<span>I vlefshëm</span></b></div></div>'+
       '</div></div></div>';
   }
 
@@ -1026,7 +1070,7 @@
     if(state.screen === ekraniIFundit) fresh.classList.add('noanim');
     ekraniIFundit = state.screen;
     $screen.replaceWith(fresh); $screen = fresh;
-    var op = TAB_OF_OP[state.screen], tu = TAB_OF_T[state.screen];
+    var op = TAB_OF_OP[state.screen], tu = TAB_OF_T[state.screen] || (state.screen==='map' && state.ctx==='t' ? 'map' : null);
     var tab = op || tu || TAB_OF[state.screen];
     var lista = op ? TABS_OP : (tu ? TABS_T : TABS);
     $tabbar.hidden = !tab;
@@ -1080,7 +1124,7 @@
     if(t.dataset.doc){ state.doc = t.dataset.doc; render(); return; }
     if(t.dataset.gender){ state.gender = t.dataset.gender; render(); return; }
     if(t.dataset.tmode){ state.tmode = t.dataset.tmode; go('pair'); return; }
-    if(t.dataset.tprod){ state.tprod = t.dataset.tprod; state.tKa = true; go('tpass'); return; }
+    if(t.dataset.tprod){ tBlej(t.dataset.tprod); go('tpass'); thuaj('Bileta u ble — 7 ditë nga tani.'); return; }
     if(t.dataset.treg){ state.tStep = +t.dataset.treg; if(state.screen!=='treg'){ go('treg'); } else render(); return; }
     if(t.dataset.tgender){ state.tGender = t.dataset.tgender; render(); return; }
     if(t.dataset.pair){ state.paired = true; go('scan'); return; }
