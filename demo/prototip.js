@@ -1029,8 +1029,11 @@
     document.getElementById('m-light').setAttribute('aria-pressed', state.mode==='light');
     document.getElementById('m-dark').setAttribute('aria-pressed', state.mode==='dark');
     document.getElementById('net').setAttribute('aria-checked', String(state.online));
-    document.getElementById('g-f').setAttribute('aria-pressed', state.gender==='f');
-    document.getElementById('g-m').setAttribute('aria-pressed', state.gender==='m');
+    // Butonat e gjinisë mund të mungojnë kur telefoni mban HTML-në e vjetër nga memoria (max-age 600):
+    // pa këtë kontroll, skripti i ri do të rrëzohej këtu dhe demoja do të mbetej bosh.
+    var gf = document.getElementById('g-f'), gm = document.getElementById('g-m');
+    if(gf) gf.setAttribute('aria-pressed', state.gender==='f');
+    if(gm) gm.setAttribute('aria-pressed', state.gender==='m');
     perkthe();
     renderOverlay();
     runCountdown();
