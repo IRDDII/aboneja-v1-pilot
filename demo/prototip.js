@@ -80,9 +80,9 @@
     {id:'t-all',     name:'Të gjithë Shqipërinë',         price:1200, scope:'Vlen në të gjitha linjat e rrjetit.', pick:null,               opts:[]}
   ];
   var LINES = {
-    L7:{name:'Kamëz – Qendër', color:'#2F6BFF', pts:[[48,36],[92,70],[128,96],[150,138],[196,170],[240,214],[282,258]], stops:[['Kamëz',0],['Bathore',2],['Kthesa e Kamzës',3],['Sheshi Shqiponja',5],['Qendër',6]]},
-    L12:{name:'Laprakë – Qendër', color:'#0E9F74', pts:[[30,178],[80,176],[126,190],[176,206],[222,216],[282,258]], stops:[['Laprakë',0],['Unaza e Re',1],['Ali Demi',3],['Qendër',5]]},
-    L3:{name:'Sauk – Qendër', color:'#7B5CFA', pts:[[312,70],[300,120],[292,168],[286,214],[282,258]], stops:[['Sauk',0],['Liqeni',1],['Rr. e Elbasanit',3],['Qendër',4]]}
+    L7:{name:'Kamëz – Qendër', color:'#3F5189', pts:[[48,36],[92,70],[128,96],[150,138],[196,170],[240,214],[282,258]], stops:[['Kamëz',0],['Bathore',2],['Kthesa e Kamzës',3],['Sheshi Shqiponja',5],['Qendër',6]]},
+    L12:{name:'Laprakë – Qendër', color:'#2C7A8C', pts:[[30,178],[80,176],[126,190],[176,206],[222,216],[282,258]], stops:[['Laprakë',0],['Unaza e Re',1],['Ali Demi',3],['Qendër',5]]},
+    L3:{name:'Sauk – Qendër', color:'#6E4BB8', pts:[[312,70],[300,120],[292,168],[286,214],[282,258]], stops:[['Sauk',0],['Liqeni',1],['Rr. e Elbasanit',3],['Qendër',4]]}
   };
   var REG = ['Dokumenti','Identiteti','Llogaria','Kodi OTP','Vulosja'];
 
@@ -400,12 +400,12 @@
 
   function mapSvg(sel){
     var s = '<svg viewBox="0 0 340 300" role="img" aria-label="Harta e linjave">';
-    s += '<rect width="340" height="300" fill="'+(state.mode==='dark'?'#101640':'#F1F0FA')+'"/>';
-    var block = state.mode==='dark' ? '#171E52' : '#FFFFFF', road = state.mode==='dark' ? '#252C63' : '#E2DFF2';
+    s += '<rect width="340" height="300" fill="'+(state.mode==='dark'?'#141B2E':'#EEF2F8')+'"/>';
+    var block = state.mode==='dark' ? '#1B2338' : '#FFFFFF', road = state.mode==='dark' ? '#2A3350' : '#DCE2EC';
     [[16,16,60,44],[92,14,90,40],[200,20,70,56],[20,80,70,70],[180,92,60,50],[252,100,70,60],[40,214,110,70],[170,236,60,50],[230,160,40,40]].forEach(function(b){ s += '<rect x="'+b[0]+'" y="'+b[1]+'" width="'+b[2]+'" height="'+b[3]+'" rx="10" fill="'+block+'"/>'; });
-    s += '<path d="M0 150 C 70 130, 110 160, 170 150 S 280 120, 340 140" fill="none" stroke="'+(state.mode==='dark'?'#1A2A66':'#D6E4FF')+'" stroke-width="12" stroke-linecap="round"/>';
+    s += '<path d="M0 150 C 70 130, 110 160, 170 150 S 280 120, 340 140" fill="none" stroke="'+(state.mode==='dark'?'#1E3A52':'#CFE3F5')+'" stroke-width="12" stroke-linecap="round"/>';
     s += '<path d="M10 120 H330 M110 0 V300 M230 0 V300 M0 250 H340" stroke="'+road+'" stroke-width="6" fill="none"/>';
-    s += '<circle cx="250" cy="70" r="26" fill="'+(state.mode==='dark'?'#123A31':'#DDF5EA')+'"/>';
+    s += '<circle cx="250" cy="70" r="26" fill="'+(state.mode==='dark'?'#1C3328':'#DDF1E4')+'"/>';
     Object.keys(LINES).forEach(function(k){
       var L = LINES[k], on = k===sel, d = 'M'+L.pts.map(function(p){return p.join(' ');}).join(' L');
       if(on) s += '<path d="'+d+'" fill="none" stroke="'+(state.mode==='dark'?'#0F1424':'#fff')+'" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"/>';
@@ -423,13 +423,13 @@
     });
     // Qytetarët: pika anonime, që ndizen e fiken — sepse shfaqen VETËM kur app-i është hapur.
     [[74,64],[122,118],[158,92],[196,146],[214,196],[254,232],[96,196],[142,236],[268,178],[62,140],[186,58],[232,120]].forEach(function(c,i){
-      s += '<circle class="dotcitizen" cx="'+c[0]+'" cy="'+c[1]+'" r="4.5" fill="#F5A524" style="animation-delay:'+(i*0.53).toFixed(2)+'s"/>';
+      s += '<circle class="dotcitizen" cx="'+c[0]+'" cy="'+c[1]+'" r="4.5" fill="#E8833A" style="animation-delay:'+(i*0.53).toFixed(2)+'s"/>';
     });
     var L = LINES[sel];
     L.stops.forEach(function(st, i){
       var p = L.pts[st[1]], end = i===0 || i===L.stops.length-1, right = p[0] < 200;
       s += '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+(end?8:6)+'" fill="'+(end?L.color:'#fff')+'" stroke="'+L.color+'" stroke-width="3.5"/>';
-      s += '<text x="'+(p[0]+(right?12:-12))+'" y="'+(p[1]+4)+'" text-anchor="'+(right?'start':'end')+'" font-family="Segoe UI Variable Text,SF Pro Text,Roboto,Inter,Arial,sans-serif" font-size="11.5" font-weight="'+(end?800:600)+'" fill="'+(state.mode==='dark'?'#E6EAF5':'#1F2937')+'" paint-order="stroke" stroke="'+(state.mode==='dark'?'#101640':'#F1F0FA')+'" stroke-width="3">'+st[0]+'</text>';
+      s += '<text x="'+(p[0]+(right?12:-12))+'" y="'+(p[1]+4)+'" text-anchor="'+(right?'start':'end')+'" font-family="Segoe UI Variable Text,SF Pro Text,Roboto,Inter,Arial,sans-serif" font-size="11.5" font-weight="'+(end?800:600)+'" fill="'+(state.mode==='dark'?'#E6EAF5':'#1F2937')+'" paint-order="stroke" stroke="'+(state.mode==='dark'?'#141B2E':'#EEF2F8')+'" stroke-width="3">'+st[0]+'</text>';
     });
     return s + '</svg>';
   }
@@ -470,7 +470,7 @@
       var hyr = state.tab==='login';
       return '<div class="screen">'+
         '<button class="sq" data-go="role" aria-label="Kthehu">'+I.back+'</button>'+
-        '<div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:6px"><div class="logo" style="width:64px;height:64px;border-radius:18px"><span style="width:32px;height:32px;display:block">'+BUS+'</span></div><h1 class="h">'+(hyr?'Hyrje':'Krijo llogari')+'</h1></div>'+
+        '<div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:6px"><div class="logo logo--sm" role="img" aria-label="Aboneja Ime">'+BUS+'</div><h1 class="h">'+(hyr?'Hyrje':'Krijo llogari')+'</h1></div>'+
         '<div class="tabs" role="tablist"><button role="tab" data-tab="login" aria-selected="'+hyr+'">Hyr</button><button role="tab" data-tab="new" aria-selected="'+(!hyr)+'">Krijo llogari</button></div>'+
         (hyr
           ? '<div class="card form">'+field('em','Email',I.mail,emaili(),'email')+field('pw','Fjalëkalimi',I.lock,'demo-demo-demo','password')+
@@ -538,7 +538,7 @@
         '<div class="titlebar"><button class="sq" data-go="home" aria-label="Kthehu">'+I.back+'</button><h1 class="h" style="font-size:26px">Harta live</h1><span class="livebadge" style="margin-left:auto"><i></i>LIVE</span></div>'+
         '<div class="linepick" role="group" aria-label="Linja">'+Object.keys(LINES).map(function(x){ return '<button data-line="'+x+'" aria-pressed="'+(x===k)+'">'+x+'</button>'; }).join('')+'</div>'+
         '<div class="card mapbox">'+mapSvg(k)+
-          '<div class="legend"><span><i style="background:'+L.color+'"></i>Linja '+k+'</span><span><i style="background:#fff;box-shadow:0 0 0 2px '+L.color+'"></i>2 autobusë</span><span><i style="background:#F5A524"></i>Qytetarë në app</span></div>'+
+          '<div class="legend"><span><i style="background:'+L.color+'"></i>Linja '+k+'</span><span><i style="background:#fff;box-shadow:0 0 0 2px '+L.color+'"></i>2 autobusë</span><span><i style="background:#E8833A"></i>Qytetarë në app</span></div>'+
           '<div class="mapfoot"><span><b>'+k+'</b> · '+L.name+'</span><span>'+L.stops.length+' stacione</span></div></div>'+
         ''+
       '</div>';
@@ -854,10 +854,10 @@
         (s==='para' ? (
           '<section class="card split" aria-label="Ndarja e të ardhurave">'+
             '<b style="font-size:17px">Ndarja e të ardhurave</b>'+
-            '<div class="splitbar" aria-hidden="true"><i style="width:72%;background:#4B3FD8"></i><i style="width:18%;background:#34D399"></i><i style="width:10%;background:#F5A524"></i></div>'+
-            '<div class="row2"><i style="background:#4B3FD8"></i>Kompania<b class="num">179 000 L</b></div>'+
-            '<div class="row2"><i style="background:#34D399"></i>Poli universal<b class="num">44 700 L</b></div>'+
-            '<div class="row2"><i style="background:#F5A524"></i>Komisioni i platformës<b class="num">24 900 L</b></div>'+
+            '<div class="splitbar" aria-hidden="true"><i style="width:72%;background:#2C3D62"></i><i style="width:18%;background:#21BFB0"></i><i style="width:10%;background:#E8833A"></i></div>'+
+            '<div class="row2"><i style="background:#2C3D62"></i>Kompania<b class="num">179 000 L</b></div>'+
+            '<div class="row2"><i style="background:#21BFB0"></i>Poli universal<b class="num">44 700 L</b></div>'+
+            '<div class="row2"><i style="background:#E8833A"></i>Komisioni i platformës<b class="num">24 900 L</b></div>'+
           '</section>'+
           '<div class="stat">'+
             '<div><b class="num">248 600 L</b><span>Bruto shtator</span></div>'+
@@ -940,7 +940,7 @@
       '<div class="qh"><small>'+(turist?'Biletë javore':'Abonim mujor')+'</small><b>'+(turist?tp.name:p.name)+'</b><span>'+(turist?'7 ditë':scopeLabel(a))+'</span><button class="x" data-closeqr="1" aria-label="Mbyll">'+I.x+'</button></div>'+
       '<div class="face"><span class="photo">'+(turist?(state.tGender==='f'?'GR':'MR'):'AK')+'</span><small>Fotoja për kontrollorin</small></div>'+
       '<div class="qb">'+qr+
-        '<div class="rows"><div><span>Udhëtari</span><b>'+(turist?(state.tGender==='f'?'Giulia Rossi':'Marco Rossi'):emriPlote())+'</b></div><div><span>Skadon</span><b class="num">'+data(a.to)+', '+ora(a.to)+'</b></div><div><span>Statusi</span><b style="color:var(--mint)">I vlefshëm</b></div></div>'+
+        '<div class="rows"><div><span>Udhëtari</span><b>'+(turist?(state.tGender==='f'?'Giulia Rossi':'Marco Rossi'):emriPlote())+'</b></div><div><span>Skadon</span><b class="num">'+data(a.to)+', '+ora(a.to)+'</b></div><div><span>Statusi</span><b class="qstatus">'+I.check+'<span>I vlefshëm</span></b></div></div>'+
       '</div></div></div>';
   }
 
@@ -958,7 +958,7 @@
   function drawQR(){
     var q = document.getElementById('qr'); if(!q) return;
     q.innerHTML = '';
-    if(window.QRCode){ new QRCode(q,{text:'aboneja:pass:'+state.pass.token,width:344,height:344,colorDark:'#1B1F4B',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }
+    if(window.QRCode){ new QRCode(q,{text:'aboneja:pass:'+state.pass.token,width:344,height:344,colorDark:'#2C3D62',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }
     else { q.textContent = state.pass.token; }
   }
   function runTimer(){
@@ -1046,7 +1046,7 @@
     runCountdown();
     runFeed();
     var qt = document.getElementById('qr-t');
-    if(qt && window.QRCode){ qt.innerHTML = ''; new QRCode(qt,{text:'aboneja:turist:demo-7d',width:344,height:344,colorDark:'#1B1F4B',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }
+    if(qt && window.QRCode){ qt.innerHTML = ''; new QRCode(qt,{text:'aboneja:turist:demo-7d',width:344,height:344,colorDark:'#2C3D62',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M}); }
     if(state.screen==='welcome') runTyping();
     clearTimeout(introTimer);
     if(state.screen==='intro') introTimer = setTimeout(leaveIntro, reduced ? 900 : 2400);

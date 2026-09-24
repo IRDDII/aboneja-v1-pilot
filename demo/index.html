@@ -13,15 +13,14 @@
 <script src="vendor/qrcode.min.js"></script>
 <style>
 /* ── Skena rreth telefonit — ndjek temën e shikuesit ─────────────────── */
-/* v13 (24 shtator): skena merr ngjyrat dhe shkronjat e faqes (tools/product-site/css/site.css) —
-   letër lejlaku / mesnatë, indigo si theks — që demoja të duket pjesë e faqes, jo një botë tjetër. */
-:root{ --stage:#F6F5FC; --stage-ink:#12163A; --stage-soft:#6B6F94; --stage-line:#DAD6EE; --stage-card:#FFFFFF; --stage-accent:#4B3FD8;
+/* v14 (24 shtator): ngjyrat fillestare të skenës (Irdi: «lejla është shumë»); shkronjat e faqes mbeten. */
+:root{ --stage:#EEF1F7; --stage-ink:#1F2937; --stage-soft:#6B7280; --stage-line:#DDE2EC; --stage-card:#FFFFFF; --stage-accent:#2C3D62;
   --font-display:"Segoe UI Variable Display","SF Pro Display",-apple-system,"Helvetica Neue",Roboto,"Inter",system-ui,sans-serif;
   --font-text:"Segoe UI Variable Text","SF Pro Text",-apple-system,"Helvetica Neue",Roboto,"Inter",system-ui,sans-serif; }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){ --stage:#0A0F2E; --stage-ink:#EEF0FF; --stage-soft:#A3A8D4; --stage-line:rgba(207,198,255,.16); --stage-card:#141A45; --stage-accent:#CFC6FF; }
+  :root:not([data-theme="light"]){ --stage:#0B0F1A; --stage-ink:#F1F3F8; --stage-soft:#98A2B8; --stage-line:#232A3B; --stage-card:#151B2B; --stage-accent:#9FB3E6; }
 }
-:root[data-theme="dark"]{ --stage:#0A0F2E; --stage-ink:#EEF0FF; --stage-soft:#A3A8D4; --stage-line:rgba(207,198,255,.16); --stage-card:#141A45; --stage-accent:#CFC6FF; }
+:root[data-theme="dark"]{ --stage:#0B0F1A; --stage-ink:#F1F3F8; --stage-soft:#98A2B8; --stage-line:#232A3B; --stage-card:#151B2B; --stage-accent:#9FB3E6; }
 html,body{height:100%}
 body{background:var(--stage);color:var(--stage-ink);font-family:var(--font-text);font-size:15px;line-height:1.5}
 .stage{min-height:100%;display:flex;gap:56px;justify-content:center;align-items:center;padding-inline:16px;padding-block:32px;box-sizing:border-box}
@@ -43,30 +42,30 @@ body{background:var(--stage);color:var(--stage-ink);font-family:var(--font-text)
 
 /* ── Telefoni — gjuha e modelit (DEMO 07) ─────────────────────────────── */
 .phone{
-  /* v13: paleta e faqes — bojë #12163A, indigo #4B3FD8 → vjollcë #7B5CFA, mente #6EE7B7, rozë #FF4F9A. */
-  --bg:linear-gradient(165deg,#F7F6FD 0%,#FFFFFF 42%,#F1F3FE 100%);
-  --surface:#FFFFFF; --ink:#12163A; --ink-2:#434869; --ink-3:#6B6F94; --line:#E4E1F4; --line-soft:#EFEDF9;
-  --navy:#4B3FD8; --navy-grad:linear-gradient(135deg,#4B3FD8 0%,#7B5CFA 100%); --navy-ink:#FFFFFF; --navy-shadow:0 12px 26px -10px rgba(75,63,216,.55);
-  --chip:#ECEAFB; --chip-ink:#4B3FD8;
-  --mint:#0E9F74; --mint-grad:linear-gradient(100deg,#7CEFC5 0%,#3DD6A3 100%); --mint-on:#053B2A; --mint-chip:#E6FBF3; --mint-soft:#E3FAF1; --mint-line:#A9ECD2; --mint-shadow:0 12px 24px -10px rgba(16,185,129,.45);
-  --rose:var(--pink); --rose-grad:linear-gradient(100deg,#FFD3E6 0%,#FFB3D3 100%); --rose-soft:var(--pink-soft); --rose-line:var(--pink-line); --rose-ink:var(--pink-ink); --rose-neon:#FF4F9A;
-  --info:#EEF3FF; --info-line:#D6E2FF; --info-ink:#2F6BFF;
-  --pink:#FF6FAE; --pink-soft:#FFEFF6; --pink-line:#FFD0E4; --pink-ink:#B01E61;
-  --danger:#D93F4C; --shadow:0 1px 2px rgba(18,22,58,.05),0 12px 30px -16px rgba(18,22,58,.22); --btn-shadow:0 4px 14px -6px rgba(18,22,58,.14);
+  /* v14: baza fillestare — navy #2C3D62 → #3F5189, sfond i ftohtë, mente e DEMO 07. */
+  --bg:linear-gradient(160deg,#F9FAFC 0%,#FFFFFF 45%,#F3F7FE 100%);
+  --surface:#FFFFFF; --ink:#1F2937; --ink-2:#4B5563; --ink-3:#6B7280; --line:#E6E7EB; --line-soft:#EEF0F4;
+  --navy:#2C3D62; --navy-grad:linear-gradient(135deg,#2C3D62 0%,#3F5189 100%); --navy-ink:#FFFFFF; --navy-shadow:0 10px 24px rgba(44,61,98,.28);
+  --chip:#DFE2E8; --chip-ink:#2C3D62;
+  --mint:#149A7C; --mint-grad:linear-gradient(100deg,#5FD9B4 0%,#46C6BC 100%); --mint-on:#FFFFFF; --mint-chip:#ECFBF5; --mint-soft:#E6F8F1; --mint-line:#B6EADA; --mint-shadow:0 10px 22px rgba(70,198,188,.26);
+  --rose:var(--pink); --rose-grad:linear-gradient(100deg,#FBD0E4 0%,#F7A8C8 100%); --rose-soft:var(--pink-soft); --rose-line:var(--pink-line); --rose-ink:var(--pink-ink); --rose-neon:#FF7FC8;
+  --info:#F1F6FF; --info-line:#D9E5FF; --info-ink:#3B5BDB;
+  --pink:#F7A8C8; --pink-soft:#FDF1F7; --pink-line:#F8CFE3; --pink-ink:#A63C6E;
+  --danger:#D14343; --shadow:0 2px 6px rgba(31,41,55,.04),0 10px 30px rgba(31,41,55,.06); --btn-shadow:0 4px 14px rgba(31,41,55,.06);
   font-family:var(--font-text);
   width:390px;height:810px;max-width:100%;border-radius:46px;background:var(--bg);color:var(--ink);
   box-shadow:0 0 0 10px #111827,0 30px 70px rgba(17,24,39,.28);position:relative;overflow:hidden;display:flex;flex-direction:column;flex:none;
 }
 .phone[data-mode="dark"]{
-  --bg:linear-gradient(165deg,#0B1033 0%,#0E1438 50%,#121A45 100%);
-  --surface:#161C4A; --ink:#EEF0FF; --ink-2:#C9CCEA; --ink-3:#9EA3CF; --line:#2A3166; --line-soft:#1F2658;
-  --navy:#CFC6FF; --navy-grad:linear-gradient(135deg,#5B4DF0 0%,#8B6CFF 100%); --navy-ink:#FFFFFF; --navy-shadow:0 12px 26px -10px rgba(0,0,0,.55);
-  --chip:#252C63; --chip-ink:#DCD6FF;
-  --mint:#6EE7B7; --mint-grad:linear-gradient(100deg,#2FBF8F 0%,#1E9E77 100%); --mint-on:#FFFFFF; --mint-chip:#0F3A30; --mint-soft:#10352C; --mint-line:#1F6B53; --mint-shadow:0 12px 24px -10px rgba(0,0,0,.45);
-  --rose:var(--pink); --rose-grad:linear-gradient(100deg,#B04A7C 0%,#9C3F6E 100%); --rose-soft:var(--pink-soft); --rose-line:var(--pink-line); --rose-ink:var(--pink-ink); --rose-neon:#FF7AB6;
-  --info:#1A2660; --info-line:#2A3A80; --info-ink:#A9C2FF;
-  --pink:#FF8EC2; --pink-soft:#3A1A33; --pink-line:#6B2F55; --pink-ink:#FFC2DD;
-  --danger:#FF8A8A; --shadow:0 0 0 1px rgba(255,255,255,.03); --btn-shadow:none;
+  --bg:linear-gradient(160deg,#0F1424 0%,#121829 50%,#141B30 100%);
+  --surface:#1A2135; --ink:#F1F3F8; --ink-2:#C7CDDB; --ink-3:#98A2B8; --line:#2A3348; --line-soft:#222A3E;
+  --navy:#9FB3E6; --navy-grad:linear-gradient(135deg,#3A4E86 0%,#5468A8 100%); --navy-ink:#FFFFFF; --navy-shadow:0 10px 24px rgba(0,0,0,.35);
+  --chip:#2A3552; --chip-ink:#DCE4FA;
+  --mint:#6FD9B8; --mint-grad:linear-gradient(100deg,#37A886 0%,#2B9490 100%); --mint-on:#FFFFFF; --mint-chip:#14332A; --mint-soft:#143029; --mint-line:#256B55; --mint-shadow:0 10px 22px rgba(0,0,0,.3);
+  --rose:var(--pink); --rose-grad:linear-gradient(100deg,#A75E85 0%,#98527A 100%); --rose-soft:var(--pink-soft); --rose-line:var(--pink-line); --rose-ink:var(--pink-ink); --rose-neon:#FF9BD6;
+  --info:#1A2744; --info-line:#26365C; --info-ink:#9DB6FF;
+  --pink:#F0A3C4; --pink-soft:#3A2233; --pink-line:#6B3A56; --pink-ink:#F9C6DD;
+  --danger:#FF8A8A; --shadow:0 0 0 1px rgba(255,255,255,.02); --btn-shadow:none;
 }
 .status-bar{height:40px;flex:none;display:flex;justify-content:space-between;align-items:center;padding:0 28px;font-size:13px;font-weight:600;color:var(--ink)}
 .status-bar i{width:18px;height:9px;border:1.5px solid currentColor;border-radius:3px;display:block;opacity:.7}
@@ -621,8 +620,8 @@ body{background:var(--stage);color:var(--stage-ink);font-family:var(--font-text)
      --acc-mid    toni i mesëm — shiriti i kohës
      --acc-ring   rrethi i QR-së · --acc-head koka e QR-së dhe karta kryesore (shkrim --acc-head-ink)
    Jeshilja e statusit («Aktiv», «I vlefshëm») dhe e blerjes mbetet jeshile: aty ngjyra do të thotë diçka. */
-.phone{--acc:#4B3FD8;--acc-grad:var(--navy-grad);--acc-ink:#fff;--acc-shadow:var(--navy-shadow);--acc-soft:var(--chip);--acc-soft-ink:var(--chip-ink);
-  --acc-line:var(--line);--acc-mid:var(--navy-grad);--acc-ring:#7B5CFA;--acc-head:var(--navy-grad);--acc-head-ink:#fff}
+.phone{--acc:#3F5189;--acc-grad:var(--navy-grad);--acc-ink:#fff;--acc-shadow:var(--navy-shadow);--acc-soft:var(--chip);--acc-soft-ink:var(--chip-ink);
+  --acc-line:var(--line);--acc-mid:var(--navy-grad);--acc-ring:#6EB984;--acc-head:var(--navy-grad);--acc-head-ink:#fff}
 .phone[data-tema="f"]{--acc:#E8388A;--acc-grad:linear-gradient(135deg,#FF7AB6 0%,#E8388A 100%);--acc-ink:#fff;--acc-shadow:0 12px 26px -10px rgba(232,56,138,.55);
   --acc-soft:#FFE9F3;--acc-soft-ink:#B01E61;--acc-line:#FFCFE3;--acc-mid:linear-gradient(90deg,#FFB3D3 0%,#FF6FAE 100%);--acc-ring:#FF6FAE;
   --acc-head:linear-gradient(135deg,#FFE6F1 0%,#FFC6DD 100%);--acc-head-ink:#7A1242}
@@ -679,7 +678,8 @@ body{background:var(--stage);color:var(--stage-ink);font-family:var(--font-text)
 /* Vulosja: e njëjta koreografi, pa neon — rrathët dhe disku mbeten, shkëlqimi zbutet. */
 .seal[data-g="f"]{--sc:#FF4F9A;--sc2:#FFB8D6}
 .seal[data-g="m"]{--sc:#2F6BFF;--sc2:#A9C2FF}
-.seal[data-g="t"],.seal[data-g="ok"]{--sc:#10B981;--sc2:#A7F3D0}
+.seal[data-g="t"]{--sc:#10B981;--sc2:#A7F3D0}
+.seal[data-g="ok"]{--sc:#22C39C;--sc2:#8BE9C8}
 .seal .disc{box-shadow:0 0 0 10px color-mix(in srgb,var(--sc) 12%,transparent),0 16px 34px -12px color-mix(in srgb,var(--sc) 60%,transparent)}
 .seal .mark{text-shadow:none;box-shadow:none;background:color-mix(in srgb,var(--sc) 7%,transparent)}
 
@@ -720,6 +720,17 @@ body{background:var(--stage);color:var(--stage-ink);font-family:var(--font-text)
 .phone[data-tema] .opt[aria-checked="true"],.phone[data-tema] .choice[aria-checked="true"]{border-color:var(--acc-ring);background:var(--acc-soft)}
 .phone[data-tema] .opt[aria-checked="true"] .radio{border-color:var(--acc)}
 
+/* v14 — logoja e vogël te «Hyrje»: ikona në qendër, në përpjesëtim me pllakën. */
+.logo.logo--sm{width:64px;height:64px;border-radius:18px}
+.logo.logo--sm svg{width:32px;height:32px}
+/* v14 — statusi te QR-ja: etiketë me ngjyrën e udhëtarit (✓ + tekst), jo tekst jeshil i vetmuar. */
+.qrmodal .rows b.qstatus{display:inline-flex;align-items:center;gap:6px;padding:4px 11px 4px 8px;border-radius:999px;font-size:13.5px;
+  background:var(--acc-soft);color:var(--acc-soft-ink);box-shadow:inset 0 0 0 1px var(--acc-line)}
+.qrmodal .rows b.qstatus svg{flex:none}
+/* v14 — rrethi i numëruesit te QR-ja: neon i lehtë, në ngjyrën e udhëtarit. */
+.qrframe .ringfill{filter:drop-shadow(0 0 2px var(--acc-ring)) drop-shadow(0 0 7px color-mix(in srgb,var(--acc-ring) 45%,transparent))}
+.phone[data-tema] .qrframe .ringfill{stroke:var(--acc-ring)}
+
 /* Gjuha: dy zgjedhje të dukshme — gjithmonë shihet cila është aktive. */
 .toprow{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .langsw{display:inline-flex;align-items:center;gap:2px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:3px 3px 3px 8px;box-shadow:var(--btn-shadow);color:var(--ink-3)}
@@ -757,7 +768,7 @@ body{background:var(--stage);color:var(--stage-ink);font-family:var(--font-text)
   </div>
 </div>
 
-<script src="prototip.js?v=f2ba6269"></script>
+<script src="prototip.js?v=756fa086"></script>
 
 </body>
 </html>
