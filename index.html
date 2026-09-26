@@ -12,18 +12,19 @@
 <!-- Fontet e markës merren që në fillim: «ABONEJA» e hyrjes del te 1,0 s dhe s'duhet të ndërrojë shkronjë para syve. -->
 <link rel="preload" href="fonts/anybody.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/onest.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/site.css">
-<script src="js/hyrja.js"></script>
-<script type="module" src="js/site.js"></script>
+<link rel="stylesheet" href="css/site.css?v=ff5a9bd0">
+<script src="js/hyrja.js?v=3403d310"></script>
+<script type="module" src="js/site.js?v=d1153c04"></script>
 </head>
 <body>
 <!-- ═══ HYRJA «Rrjeti ndizet» — 6,7 s, hapja e parë e sesionit. Dekor, jo informacion.
-     Qyteti natën → linjat e largëta → «ABONEJA» kyçet te 1,37 s dhe skanohet → linjë,
-     kompani, rrjet ndizen → mjetet mbërrijnë te QR-ja → dyert hapen mbi faqen.
+     Qyteti natën → linjat e largëta → «ABONEJA» ngrihet nga vija e maskës, shtrydhet dhe kyçet
+     te 1,37 s, skanohet → linjë, kompani, rrjet → QR-ja del me sustë → mjetet mbërrijnë →
+     linjat tërhiqen, teksti zhytet → perdja ngrihet me gjithë skenën. Asgjë nuk zbehet: format ndryshojnë.
      Kohët jetojnë te :root i site.css («Kohët e hyrjes»), asgjë këtu. ═══ -->
 <div class="hyrja" data-hyrja aria-hidden="true">
-  <div class="hyrja__dera hyrja__dera--majtas"><div class="hyrja__drita"></div></div>
-  <div class="hyrja__dera hyrja__dera--djathtas"><div class="hyrja__drita"></div></div>
+  <div class="hyrja__perdja">
+  <div class="hyrja__drita"></div>
   <div class="hyrja__skena">
     <svg class="hyrja__linjat" viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
       <defs>
@@ -44,9 +45,9 @@
       <path class="hyrja__mjeti hyrja__mjeti--2" pathLength="1" data-d="M-5 74 C 24 76, 52 70, 84 62" d="M-5 74 C 24 76, 52 70, 84 62"/>
       <path class="hyrja__mjeti hyrja__mjeti--3" pathLength="1" data-d="M-5 50 C 26 48, 56 55, 84 62" d="M-5 50 C 26 48, 56 55, 84 62"/>
     </svg>
-    <p class="hyrja__etiketa hyrja__etiketa--rrjet">Gjithë rrjeti</p>
-    <p class="hyrja__etiketa hyrja__etiketa--linje">Një linjë</p>
-    <p class="hyrja__etiketa hyrja__etiketa--kompani">Një kompani</p>
+    <p class="hyrja__etiketa hyrja__etiketa--rrjet"><span>Gjithë rrjeti</span></p>
+    <p class="hyrja__etiketa hyrja__etiketa--linje"><span>Një linjë</span></p>
+    <p class="hyrja__etiketa hyrja__etiketa--kompani"><span>Një kompani</span></p>
     <div class="hyrja__nyja">
       <span class="hyrja__nyja-puls"></span>
       <svg class="hyrja__qr" viewBox="0 0 92 92" focusable="false">
@@ -62,11 +63,11 @@
       </svg>
     </div>
     <div class="hyrja__marka">
-      <p class="hyrja__fjala" data-fjala="Aboneja"><span>A</span><span>b</span><span>o</span><span>n</span><span>e</span><span>j</span><span>a</span><span class="hyrja__skaneri"></span></p>
-      <p class="hyrja__motoja">Abonimi i autobusit, në telefonin tënd.</p>
+      <p class="hyrja__fjala" data-fjala="Aboneja"><span class="hyrja__germat"><span>A</span><span>b</span><span>o</span><span>n</span><span>e</span><span>j</span><span>a</span></span></p>
+      <p class="hyrja__motoja"><span>Abonimi i autobusit, në telefonin tënd.</span></p>
     </div>
   </div>
-  <span class="hyrja__cara"></span>
+  </div>
   <span class="hyrja__progresi"></span>
   <span class="hyrja__kalo">Kalo</span>
 </div>

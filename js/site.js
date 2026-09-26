@@ -1,4 +1,4 @@
-import { nisGjuhen, perkthe, gjuhaAktuale } from './gjuha.js';
+import { nisGjuhen, perkthe, gjuhaAktuale } from './gjuha.js?v=b3cb586a';
 /* Aboneja — website publik. Pa varësi, pa gjurmues, pa cookie.
  *
  * Lexon vetëm dy skedarë: `site-config.json` (mjedisi dhe veçoritë) dhe
