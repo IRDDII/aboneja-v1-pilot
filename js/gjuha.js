@@ -10,6 +10,17 @@
 // një fjalor me përputhje të saktë nuk i kap dot.
 const EN = {
   'Kalo te përmbajtja': 'Skip to content',
+  // Hyrja «Rrjeti ndizet» (index.html, 26 shtator)
+  'Abonimi i autobusit, në telefonin tënd.': 'Your bus subscription, on your phone.',
+  'Kalo': 'Skip',
+  'Një linjë': 'One line',
+  'Një kompani': 'One company',
+  'Gjithë rrjeti': 'The whole network',
+  // Kapitujt si stacione (01–09): titujt e mëdhenj që nuk janë emra seksionesh
+  'Pesë hapa. Një udhëtim.': 'Five steps. One journey.',
+  'Linjë. Kompani. Rrjet.': 'Line. Company. Network.',
+  'Skaneri pyet. Serveri vendos.': 'The scanner asks. The server decides.',
+  'Stacioni i fundit': 'Last stop',
   'Menuja': 'Menu',
   'Si funksionon': 'How it works',
   'Abonimet': 'Subscriptions',

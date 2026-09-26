@@ -320,7 +320,9 @@ function lidhMenune() {
 
 function ndiqSeksionet() {
   if (!('IntersectionObserver' in window)) return;
-  const lidhjet = new Map($$('[data-nav] a[href^="#"]').map((a) => [a.getAttribute('href').slice(1), a]));
+  // Butoni «Hap demon» nis me href=#abonimet para se të vijë konfigurimi: pa këtë përjashtim,
+  // Map-i e mbante atë në vend të lidhjes «Abonimet» dhe e ndizte (tekst i bardhë mbi të bardhë).
+  const lidhjet = new Map($$('[data-nav] a[href^="#"]:not([data-app-link])').map((a) => [a.getAttribute('href').slice(1), a]));
   const vezhguesi = new IntersectionObserver((hyrjet) => {
     for (const h of hyrjet) {
       if (!h.isIntersecting) continue;
