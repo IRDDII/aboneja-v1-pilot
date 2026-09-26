@@ -12,9 +12,10 @@
    kapitujve të çelët. Rozë = vetëm pulsi i QR-së.
 
    Shkronjat — tri role, asnjë i katërt:
-     Anybody, e zgjeruar, KAPITALE   titujt, marka, çmimet: gjerësia = linja horizontale
-     Onest                           teksti dhe ndërfaqja
-     JetBrains Mono                  stacionet (01 / …), numrat e vegjël, numëruesi
+     Anybody, e zgjeruar, KAPITALE   VETËM marka ABONEJA (kreu, hyrja, fundi): shkronja e gjetur
+     Onest                           titujt (650, fjali normale, gërmat afër) dhe teksti — një familje, harmoni
+     JetBrains Mono                  stacionet (01 / …), numrat e vegjël
+   26 shtator: titujt me kapitale të zgjeruara «të vrisnin sytë» — u kthyen në fjali normale.
 
    Lëvizja: një moment i orkestruar (hyrja), pastaj vetëm lëvizje që thotë diçka —
    linja që mbushet kur zbret faqen, butoni që i përgjigjet dorës.
@@ -91,6 +92,7 @@
   --state-dev: #C4B5FD;
 
   --font-display: "Anybody", "Arial Black", "Segoe UI Variable Display", system-ui, sans-serif;
+  --font-titujt: "Onest", "Segoe UI Variable Display", "SF Pro Display", Roboto, system-ui, sans-serif;
   --font-text: "Onest", "Segoe UI Variable Text", "SF Pro Text", Roboto, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
 
@@ -164,7 +166,7 @@ body {
 img, svg { display: block; max-width: 100%; }
 a { color: var(--violet-bright); text-underline-offset: 3px; }
 h1, h2, h3 { margin: 0; color: inherit; }
-h1, h2 { font-family: var(--font-display); }
+h1, h2 { font-family: var(--font-titujt); }
 h3 { font-family: var(--font-text); }
 p { margin: 0; }
 ::selection { background: var(--violet); color: var(--white); }
@@ -302,8 +304,8 @@ p { margin: 0; }
 }
 .hero__brand::before { content: ""; width: 28px; height: 2px; border-radius: 2px; background: linear-gradient(90deg, var(--violet-bright), var(--electric-bright)); }
 .hero__title {
-  font: 800 clamp(34px, 8.6vw, 44px)/1.04 var(--font-display); font-stretch: 104%;
-  letter-spacing: -.005em; text-transform: uppercase; text-wrap: balance;
+  font: 650 clamp(38px, 10vw, 46px)/1.04 var(--font-titujt);
+  letter-spacing: -.035em; text-wrap: balance;
 }
 .hero__lead { margin-top: var(--s-5); font-size: var(--t-lg); line-height: 1.6; color: var(--on-night-2); max-width: 48ch; }
 .hero__actions { margin-top: var(--s-6); display: flex; flex-wrap: wrap; gap: var(--s-3); }
@@ -311,7 +313,7 @@ p { margin: 0; }
 .hero__facts { margin: var(--s-7) 0 0; padding-top: var(--s-5); border-top: 1px solid var(--night-line); display: flex; flex-wrap: wrap; gap: var(--s-5) var(--s-7); }
 .hero__facts div { min-width: 72px; }
 .hero__facts dt { font: 500 11px/1.2 var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--on-night-3); }
-.hero__facts dd { margin: var(--s-2) 0 0; font: 800 var(--t-2xl)/1 var(--font-display); font-stretch: 118%; font-variant-numeric: tabular-nums; text-transform: uppercase; }
+.hero__facts dd { margin: var(--s-2) 0 0; font: 650 var(--t-2xl)/1 var(--font-titujt); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 
 .hero__map { margin: 0; justify-self: center; width: 100%; max-width: 480px; }
 .route-map { width: 100%; height: auto; overflow: visible; }
@@ -607,8 +609,8 @@ p { margin: 0; }
 .kapitulli__nr { color: var(--on-night); font-variant-numeric: tabular-nums; }
 .kapitulli__nr::after { content: " /"; content: " /" / ""; color: var(--on-night-3); }
 .kapitulli__titulli {
-  display: block; font: 800 clamp(30px, 7.6vw, 40px)/1.04 var(--font-display); font-stretch: 108%;
-  letter-spacing: -.005em; text-transform: uppercase; text-wrap: balance; color: var(--on-night);
+  display: block; font: 650 clamp(32px, 8.4vw, 40px)/1.06 var(--font-titujt);
+  letter-spacing: -.03em; text-wrap: balance; color: var(--on-night);
 }
 .section--lejla .kapitulli__stacioni { color: var(--indigo); }
 .section--lejla .kapitulli__stacioni::before { background: var(--lejla); box-shadow: 0 0 0 4px var(--halo-lejla); }
@@ -649,11 +651,11 @@ p { margin: 0; }
 .pass::before { left: -12px; clip-path: inset(0 0 0 50%); }
 .pass::after { right: -12px; clip-path: inset(0 50% 0 0); }
 .pass__top { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); }
-.pass__name { font: 800 var(--t-xl)/1.1 var(--font-display); font-stretch: 125%; letter-spacing: .02em; text-transform: uppercase; }
+.pass__name { font: 650 var(--t-xl)/1.1 var(--font-titujt); letter-spacing: -.02em; }
 .pass__days { color: var(--ink-3); font: 500 var(--t-xs)/1 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
 .pass__summary { color: var(--ink-2); }
 .pass__foot { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); padding-top: var(--s-4); border-top: 2px dashed var(--line); min-height: 76px; }
-.pass__price { font: 800 var(--t-3xl)/1 var(--font-display); font-stretch: 112%; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.pass__price { font: 700 var(--t-3xl)/1 var(--font-titujt); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
 .pass__price small { font: 600 var(--t-md)/1 var(--font-text); color: var(--ink-3); margin-left: 4px; }
 .pass__status { font-size: var(--t-sm); color: var(--ink-3); text-align: right; }
 .pass--featured {
@@ -701,7 +703,7 @@ p { margin: 0; }
   .tourist-plans { grid-template-columns: max-content 1fr; }
   .tourist-plans li { grid-column: 1 / -1; grid-template-columns: subgrid; column-gap: 1.2rem; }
 }
-.tourist-plans__price { font: 800 1.5rem/1 var(--font-display); font-stretch: 112%; grid-row: span 2; white-space: nowrap; }
+.tourist-plans__price { font: 700 1.5rem/1 var(--font-titujt); letter-spacing: -.02em; grid-row: span 2; white-space: nowrap; }
 .tourist-plans__name { font-weight: 700; }
 .tourist-plans__note { grid-column: 2; color: var(--on-night-2); font-size: .92rem; }
 .tourist-plans li.tourist-plans__empty { display: block; color: var(--on-night-2); }
@@ -757,7 +759,7 @@ p { margin: 0; }
 .contact .kapitulli__stacioni::before { background: var(--indigo); box-shadow: 0 0 0 4px var(--glass-strong); }
 .contact .kapitulli__nr { color: var(--white); }
 .contact .kapitulli__nr::after { color: var(--lavender); }
-.contact .kapitulli__titulli { color: var(--white); font-size: clamp(44px, 11vw, 64px); }
+.contact .kapitulli__titulli { color: var(--white); font-size: clamp(44px, 12vw, 60px); }
 .contact__text { font-size: var(--t-lg); max-width: 56ch; color: var(--white); opacity: .92; }
 .contact__text a { color: var(--white); }
 
@@ -771,7 +773,7 @@ p { margin: 0; }
 .footer__env { padding: 2px 10px; border-radius: var(--r-full); border: 1px solid var(--night-line-2); color: var(--lavender); }
 
 /* ── Pse u krijua — problemi, zgjidhja, funksionalitetet ───────────────── */
-.story__slogan { font: 800 var(--t-xl)/1.3 var(--font-display); font-stretch: 112%; text-transform: uppercase; color: var(--lavender); letter-spacing: .01em; }
+.story__slogan { font: 600 var(--t-xl)/1.3 var(--font-titujt); color: var(--lavender); letter-spacing: -.015em; }
 .story__grid { display: grid; gap: var(--s-4); }
 .story__card { padding: var(--s-5); border-radius: var(--r-md); background: var(--night-glass); border: 1px solid var(--night-line); }
 .story__card--solution { border-color: var(--electric-bright); box-shadow: inset 4px 0 0 var(--electric-bright); }
@@ -797,8 +799,8 @@ p { margin: 0; }
 /* ══ Tablet ≥ 700 ═════════════════════════════════════════════════════════ */
 @media (min-width: 700px) {
   :root { --gutter: 32px; }
-  .hero__title { font-size: clamp(44px, 6.4vw, 56px); font-stretch: 108%; }
-  .kapitulli__titulli { font-size: clamp(40px, 6vw, 52px); font-stretch: 114%; }
+  .hero__title { font-size: clamp(48px, 7vw, 60px); }
+  .kapitulli__titulli { font-size: clamp(40px, 5.6vw, 48px); }
   .quick__grid { grid-template-columns: repeat(3, 1fr); }
   .quick__item { padding: var(--s-6) var(--s-5) var(--s-6) 0; border-top: 0; border-left: 1px solid var(--night-line); padding-left: var(--s-5); }
   .quick__item:first-child { border-left: 0; padding-left: 0; }
@@ -824,9 +826,8 @@ p { margin: 0; }
   .nav .nav__app { margin: 0 0 0 var(--s-3); align-self: center; }
   .hero { padding: var(--s-9) 0 var(--s-9); }
   .hero__grid { grid-template-columns: 1.28fr .72fr; gap: var(--s-7); }
-  /* Tri rreshta: «TRANSPORTIN URBAN.» (12,15 em te gjerësia 104) duhet të hyjë në kolonë. */
-  .hero__title { font-size: clamp(44px, 4.5vw, 60px); font-stretch: 104%; }
-  .kapitulli__titulli { font-size: clamp(52px, 4.6vw, 64px); font-stretch: 118%; }
+  .hero__title { font-size: clamp(54px, 4.9vw, 70px); }
+  .kapitulli__titulli { font-size: clamp(46px, 3.9vw, 56px); }
   .split { grid-template-columns: .9fr 1.1fr; gap: var(--s-8); align-items: start; }
   /* Titulli shoqëron tekstin e gjatë («Rreth Aboneja»), në vend që kolona e majtë të mbetet bosh. */
   .split__anchor { position: sticky; top: calc(var(--topbar-h) + var(--s-7)); }
@@ -843,7 +844,7 @@ p { margin: 0; }
   .footer__inner { grid-template-columns: auto 1fr; align-items: center; }
   .footer__nav { justify-content: flex-end; }
   .footer__meta { grid-column: 1 / -1; }
-  .contact .kapitulli__titulli { font-size: clamp(64px, 7vw, 96px); font-stretch: 130%; }
+  .contact .kapitulli__titulli { font-size: clamp(56px, 5.6vw, 80px); }
 }
 
 /* ══ Rruga e faqes ≥ 1280: një linjë e vetme lidh kapitujt 01–09 ═══════════

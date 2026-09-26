@@ -323,6 +323,88 @@
   function code(s){ return s.split(' · ')[0]; }
   function place(s){ return s.split(' · ')[1] || s; }
   function info(icon, html){ return '<div class="info"><span class="ii">'+icon+'</span><span>'+html+'</span></div>'; }
+
+  // ── Thëniet (v16) ─────────────────────────────────────────────────────────
+  // Shpjegimet e v12 kthehen, por nuk rrinë (Irdi, 26 shtator): shkruhen kur shihen, qëndrojnë,
+  // fshihen — një herë për ngarkim faqeje. Kohët jetojnë vetëm te `:root` (--th-*); këtu vetëm
+  // numërohen shkronjat dhe mbahet mend kur nisi secila, që një rivizatim të mos e rinisë.
+  var thenieNisur = {}, thVezhguesi = null, thVezhguar = [], TH = null;
+  function kohaMs(v){ v = String(v).trim(); return /ms$/.test(v) ? parseFloat(v) : parseFloat(v) * 1000; }
+  function thKohet(){
+    if(!TH){
+      var s = getComputedStyle(document.documentElement);
+      TH = {gjithsej: kohaMs(s.getPropertyValue('--th-gjithsej')), radha: kohaMs(s.getPropertyValue('--th-radha'))};
+    }
+    return TH;
+  }
+  function thMbaroi(id){ var t = thenieNisur[id]; return t != null && performance.now() - t >= thKohet().gjithsej; }
+  // Kutia e shpjegimit brenda app-it — e njëjta si te v12, vetëm se shkruhet dhe ikën.
+  function thenie(id, ikona, html){
+    if(thMbaroi(id)) return '';
+    return '<div class="thenie" data-thenie="'+id+'"><div class="thenie__brendi"><div class="info"><span class="ii">'+ikona+'</span>'+
+      '<span class="thenie__teksti">'+html+'</span></div></div></div>';
+  }
+  // Rreshti poshtë QR-së: pa kuti.
+  function thenieRresht(id, html){
+    if(thMbaroi(id)) return '';
+    return '<div class="thenie thenie--rresht" data-thenie="'+id+'"><div class="thenie__brendi"><p class="cap"><span class="thenie__teksti">'+html+'</span></p></div></div>';
+  }
+  // Teksti i plotë mbetet për lexuesin e ekranit; ai që shihet ndahet në shkronja me radhë (--i).
+  function thNdaGermat(el){
+    var t = el.querySelector('.thenie__teksti'); if(!t) return;
+    var sr = document.createElement('span'); sr.className = 'sr-only'; sr.innerHTML = t.innerHTML;
+    t.parentNode.insertBefore(sr, t); t.setAttribute('aria-hidden', 'true');
+    var nyjet = [], w = document.createTreeWalker(t, NodeFilter.SHOW_TEXT, null), n, i = 0;
+    while((n = w.nextNode())) nyjet.push(n);
+    nyjet.forEach(function(n){
+      var f = document.createDocumentFragment();
+      Array.from(n.nodeValue.replace(/\s+/g, ' ')).forEach(function(c){
+        var g = document.createElement('span'); g.className = 'thenie__g'; g.textContent = c;
+        g.style.setProperty('--i', i++); f.appendChild(g);
+      });
+      n.parentNode.replaceChild(f, n);
+    });
+    el.style.setProperty('--n1', Math.max(i - 1, 1));
+  }
+  // t0 > 0: pret radhën · t0 < 0: vazhdon aty ku ishte para rivizatimit.
+  function thNdiz(el, t0){ el.style.setProperty('--th-t0', Math.round(t0) + 'ms'); el.classList.add('thenie--ndezur'); }
+  function ndizThenite(){
+    var th = thKohet();
+    if(!thVezhguesi && window.IntersectionObserver){
+      thVezhguesi = new IntersectionObserver(function(hyrjet){
+        var tani = performance.now(), n = 0;
+        hyrjet.forEach(function(h){
+          if(!h.isIntersecting || h.intersectionRatio < .6) return;
+          var id = h.target.dataset.thenie;
+          thVezhguesi.unobserve(h.target);
+          if(thenieNisur[id] != null) return;
+          thenieNisur[id] = tani + n * th.radha;
+          thNdiz(h.target, n * th.radha); n++;
+        });
+      }, {threshold: [0, .6]});
+    }
+    thVezhguar = thVezhguar.filter(function(el){ if(el.isConnected) return true; if(thVezhguesi) thVezhguesi.unobserve(el); return false; });
+    document.querySelectorAll('[data-thenie]:not([data-gati])').forEach(function(el){
+      el.setAttribute('data-gati', '');
+      thNdaGermat(el);
+      var t = thenieNisur[el.dataset.thenie];
+      if(t != null) thNdiz(el, t - performance.now());
+      else if(thVezhguesi){ thVezhguesi.observe(el); thVezhguar.push(el); }
+      else { thenieNisur[el.dataset.thenie] = performance.now(); thNdiz(el, 0); }
+    });
+  }
+  // Thënia e panelit që ka dalë mbi ekran (telefoni, faqja e zbritur) nuk palloset para syve:
+  // hiqet në fund dhe faqja kthehet po aty — asgjë nuk kërcen.
+  function thMbiPamje(el){ return !el.closest('.phone') && el.getBoundingClientRect().bottom <= 0; }
+  function thMbaro(el){
+    if(!el) return;
+    var sr = el.querySelector('.sr-only'); if(sr) sr.remove();
+    if(el.classList.contains('thenie--rresht')){ el.setAttribute('aria-hidden', 'true'); return; }
+    if(!el.classList.contains('thenie--pa-palosje')){ el.hidden = true; return; }
+    var ref = document.getElementById('phone'), y0 = ref.getBoundingClientRect().top;
+    el.hidden = true;
+    window.scrollBy(0, ref.getBoundingClientRect().top - y0);
+  }
   // Qytetari i demos ndjek gjininë e zgjedhur: Arta / Ardit Kola (inicialet AK për të dy).
   // Turisti: çdo blerje është biletë e re 7-ditore nga çasti i blerjes. Më parë kishte një datë të
   // ngulitur (25 shtator) dhe blerja e dytë fshinte të parën.
@@ -562,7 +644,7 @@
         '<div class="card mapbox">'+mapSvg(k)+
           '<div class="legend"><span><i style="background:'+L.color+'"></i>Linja '+k+'</span><span><i style="background:#fff;box-shadow:0 0 0 2px '+L.color+'"></i>2 autobusë</span><span><i style="background:#E8833A"></i>Qytetarë në app</span></div>'+
           '<div class="mapfoot"><span><b>'+k+'</b> · '+L.name+'</span><span>'+L.stops.length+' stacione</span></div></div>'+
-        ''+
+        thenie('map', I.route, 'Qytetarët shfaqen si pika <b>vetëm kur e kanë app-in hapur</b>, pa emra.')+
       '</div>';
     },
     buy:function(){
@@ -577,7 +659,7 @@
             (ka?'<span class="badge badge-rose tag">E ke këtë</span>':'')+
           '</button>'; }).join('')+
         '</div>'+
-        ''+
+        thenie('buy', I.clock, 'Çdo abonim vlen <b>30 ditë</b> nga çasti i blerjes.')+
       '</div>';
     },
     detail:function(){
@@ -632,7 +714,7 @@
         }).join('')+
         '</div>'+
         '<button class="btn btn-mint-soft" data-go="buy" style="margin-top:16px">'+I.cart+' Shto abonim</button>'+
-        ''+
+        thenie('pass', I.wifi, 'QR-ja vjen nga serveri dhe rifreskohet çdo <b>2 minuta</b>.')+
       '</div>';
     },
     // ── TURISTI (vetëm dizajn, jashtë demos) ────────────────────────────────
@@ -694,7 +776,7 @@
               '<p class="cap">Zgjidh njërën nga tri biletat javore.</p>'+
               '<button class="btn btn-mint" data-go="tbuy" style="margin-top:6px">'+I.cart+' Bli biletën</button>'+
             '</section>')+
-        ''+
+        thenie('thome', I.route, 'Harta tregon linjat dhe stacionet e qytetit.')+
       '</div>';
     },
     taccount:function(){
@@ -711,7 +793,7 @@
             '<button data-setmode="light" aria-pressed="'+(state.mode==='light')+'">Light</button><button data-setmode="dark" aria-pressed="'+(state.mode==='dark')+'">Dark</button></div></div>'+
           '<button class="setting" data-soon="1"><span class="si">'+I.history+'</span>Biletat e mëparshme</button>'+
         '</div>'+
-        ''+
+        thenie('taccount', I.info, 'Të dhënat e turistëve rrinë te <b>databaza e tyre</b>, e ndarë nga ajo e qytetarëve.')+
         '<div class="spacer" style="min-height:18px"></div>'+
         '<button class="btn btn-danger" data-go="welcome">Dil nga llogaria</button>'+
       '</div>';
@@ -729,7 +811,7 @@
             (ka?'<span class="badge badge-rose tag">E ke këtë</span>':'')+
           '</button>'; }).join('')+
         '</div>'+
-        ''+
+        thenie('tbuy', I.info, 'Turisti paguan me kartë dhe e merr QR-në në çast, te llogaria e tij me pasaportë.')+
       '</div>';
     },
     tpass:function(){
@@ -782,7 +864,7 @@
             '<span style="font-weight:500;font-size:14px;color:var(--ink-3);line-height:1.4">E mban faturino ose kontrollori. Çiftëzimi bie kur mbyllet turni.</span>'+
           '</button>'+
         '</div>'+
-        ''+
+        thenie('tmode', I.info, 'Të dyja çiftëzohen me kod dhe sekret. Linjën e cakton administrata te terminali.')+
       '</div>';
     },
     pair:function(){
@@ -794,7 +876,7 @@
         '<p class="sub-h">'+(bus?'Çiftëzohet një herë dhe rri ashtu.':'Kodi dhe sekreti rrinë vetëm në këtë pajisje, sa zgjat turni.')+'</p>'+
         '<div class="card form">'+field('tcode','Kodi i pajisjes',I.hash, bus?'BUS-L7-014':'DORE-L7-207')+field('tsec','Sekreti',I.lock,'••••••••••••','password')+
           '<button class="btn btn-mint" data-pair="1">Çiftëzo dhe vazhdo</button></div>'+
-        ''+
+        thenie('pair', I.route, 'Linja vendoset nga administrata te terminali, jo nga skanimi. Terminal pa linjë nuk lejon kalim.')+
       '</div>';
     },
     camera:function(){
@@ -845,7 +927,7 @@
         '<p class="sub-h">Kur kamera nuk lexon dot — kodi shkruhet me dorë.</p>'+
         '<div class="card form">'+field('vcode','Kodi i abonimit',I.hash,'ABN-7Q4K-2MX9')+
           '<button class="btn btn-navy" data-verdict="0">Verifiko</button></div>'+
-        ''+
+        thenie('verify', I.info, 'Verifikimi manual regjistrohet njësoj si skanimi.')+
       '</div>';
     },
     // ── STAFI ───────────────────────────────────────────────────────────────
@@ -892,8 +974,8 @@
             '<div><b class="num">44 700 L</b><span>Nga poli universal</span></div>'+
             '<div><b class="num">62 400 L</b><span>Gati për tërheqje</span></div>'+
           '</div>'+
-          ''+
-          '<button class="btn btn-mint" style="margin-top:14px" data-req="1">'+I.wallet+' Kërko tërheqje</button>'
+          '<button class="btn btn-mint" style="margin-top:14px" data-req="1">'+I.wallet+' Kërko tërheqje</button>'+
+          thenie('staf-para', I.info, 'Komisioni sot është <b>shadow fee</b>: shifra del, paraja nuk lëviz derisa të hapet porta.')
         ) : '')+
         (s==='kerkesa' ? (
           '<div class="reqs">'+
@@ -904,7 +986,7 @@
               '</article>';
             }).join('')+
           '</div>'+
-          ''
+          thenie('staf-kerkesa', I.info, 'Çdo miratim shkruhet te regjistri i parave dhe nuk fshihet.')
         ) : '')+
         (s==='term' ? (
           '<div class="reqs">'+
@@ -913,8 +995,8 @@
                 '<div class="rwho">'+t.lloj+' · Linja '+t.linja+'</div><div class="cap">'+t.info+'</div></article>';
             }).join('')+
           '</div>'+
-          ''+
-          '<button class="btn btn-soft" style="margin-top:14px" data-soon="1">'+I.plus+' Shto terminal</button>'
+          '<button class="btn btn-soft" style="margin-top:14px" data-soon="1">'+I.plus+' Shto terminal</button>'+
+          thenie('staf-term', I.route, 'Terminal pa linjë refuzon çdo abonim linje. Linjën e cakton ti këtu.')
         ) : '')+
       '</div>';
     },
@@ -976,7 +1058,7 @@
     var qr = state.online
       ? '<div class="qrframe"><svg class="ring" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="115" fill="none" stroke="var(--line-soft)" stroke-width="5"/><circle id="ring" class="ringfill" cx="120" cy="120" r="115" fill="none" stroke="#6EB984" stroke-width="5" stroke-linecap="round" stroke-dasharray="722.6" stroke-dashoffset="0"/></svg><div class="qrwrap"><div class="qr" id="qr" role="img" aria-label="Kodi QR i abonimit"></div></div></div>'+
         '<p class="timer">'+I.clock+'<span>Rifreskohet pas <b id="secs">2:00</b></span></p>'+
-        ''
+        thenieRresht('qr', 'QR-ja vjen nga serveri dhe kërkon internet.')
       : '<div class="offline" style="align-self:center">'+I.wifioff+'<b>Pa internet</b><span>Lidhuni dhe QR-ja shfaqet vetë.</span></div>';
     // Ngjyra vjen nga tema e telefonit: turisti jeshile, qytetari sipas gjinisë (më parë turisti
     // merrte gjininë e qytetarit — Marco dilte me kokë rozë).
@@ -1052,6 +1134,7 @@
       (state.toast ? '<div class="toast2" role="status">'+I.info+'<span>'+state.toast+'</span></div>' : '');
     perkthe();
     runTimer();
+    ndizThenite();   // pas përkthimit: shkronjat ndahen nga teksti që shihet
   }
   var toastTimer = null;
   function thuaj(msg){
@@ -1162,5 +1245,20 @@
     if(t.dataset.qr){ state.qrSub = t.dataset.qr; state.pass.token = null; state.qrOpen = true; renderOverlay(); return; }
   });
   document.addEventListener('keydown', function(e){ if(e.key==='Escape' && (state.qrOpen || state.drawer)){ state.qrOpen = false; state.drawer = false; renderOverlay(); } });
+  // Thëniet: te 5,94 s vendoset nëse palloset para syve; te 6,70 s hiqet.
+  document.addEventListener('animationstart', function(e){
+    if(e.animationName === 'th-sinjal' && thMbiPamje(e.target)) e.target.classList.add('thenie--pa-palosje');
+  });
+  document.addEventListener('animationend', function(e){
+    if(e.animationName === 'th-kutia-dil') thMbaro(e.target.closest('[data-thenie]'));
+  });
+  // «Si ta provosh» mbyllet e hapet: shfletuesi i rinis animacionet brenda — thënia vazhdon aty ku ishte.
+  document.addEventListener('toggle', function(e){
+    if(!e.target.open) return;
+    e.target.querySelectorAll('.thenie--ndezur').forEach(function(el){
+      var id = el.dataset.thenie;
+      if(thMbaroi(id)) thMbaro(el); else thNdiz(el, thenieNisur[id] - performance.now());
+    });
+  }, true);
   render();
 })();
