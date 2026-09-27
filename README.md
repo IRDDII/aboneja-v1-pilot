@@ -1,28 +1,14 @@
-# Aboneja Ime — Pilot V1
+# aboneja-v1-pilot — vetëm ridrejtim
 
-Abonimi i autobusit urban në telefon: zgjedh linjën, kompaninë ose gjithë rrjetin, dhe e
-tregon me një kod QR që verifikohet në çast.
+Kjo ishte adresa e përkohshme publike e faqes dhe e demos për eventin e 24–25 shtatorit 2026, para
+se të aktivizohej **aboneja.al**. QR-të e printuara të çojnë këtu, prandaj depoja nuk fshihet:
 
-Kjo është **adresa e përkohshme publike** e faqes dhe e prototipit, derisa të aktivizohet
-`aboneja.al`.
-
-**Hape:** https://irddii.github.io/aboneja-v1-pilot/
-
-| Lidhja | Çfarë hap |
+| Adresa e vjetër | Të çon te |
 |---|---|
-| [Faqja](https://irddii.github.io/aboneja-v1-pilot/) | Pse u krijua, çmimet 30-ditore, turistët, pyetjet |
-| [Demoja](https://irddii.github.io/aboneja-v1-pilot/demo/) | Prototipi i aplikacionit V1, nga hyrja |
-| [Qytetari](https://irddii.github.io/aboneja-v1-pilot/demo/#qytetar) | Abonimi dhe kodi QR |
-| [Turisti](https://irddii.github.io/aboneja-v1-pilot/demo/#turist) | Paketat turistike 7-ditore |
-| [Operatori](https://irddii.github.io/aboneja-v1-pilot/demo/#operator) | Skanimi dhe verdikti në autobus |
-| [Stafi](https://irddii.github.io/aboneja-v1-pilot/demo/#staf) | Salla e stafit |
+| `irddii.github.io/aboneja-v1-pilot/` | https://aboneja.al/ |
+| `irddii.github.io/aboneja-v1-pilot/demo/` (edhe `#qytetar`, `#turist`…) | https://aboneja.al/demo/ |
+| çdo shteg tjetër | e njëjta rrugë te aboneja.al |
 
-## Çfarë është dhe çfarë nuk është
-
-- Faqe informuese dhe prototip. Të dhënat e demos janë shembuj; asnjë pagesë nuk ndodh.
-- Çmimet vijnë nga katalogu i Abonejës në ditën e ndërtimit.
-- Pa server, pa llogari, pa cookie, pa gjurmues.
-
-Fontet Inter dhe JetBrains Mono (SIL OFL 1.1) dhe qrcodejs (MIT): `demo/NOTICE.txt`.
-
-© 2026 Aboneja Ime. Të gjitha të drejtat e rezervuara.
+Që nga 27 shtator 2026 faqja dhe demoja kanë depot e tyre:
+`aboneja-web-working` → `aboneja-web-release` dhe `aboneja-demo-working` → `aboneja-demo-release`.
+Mos shto asgjë tjetër këtu.
